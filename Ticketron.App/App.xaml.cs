@@ -7,7 +7,7 @@ namespace Ticketron.App
     /// </summary>
     public partial class App : Application
     {
-        private Window _window;
+        private Window _window = null!;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code

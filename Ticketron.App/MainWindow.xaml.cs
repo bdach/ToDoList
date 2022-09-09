@@ -9,12 +9,10 @@ namespace Ticketron.App
     {
         public MainWindow()
         {
-            this.InitializeComponent();
-        }
+            InitializeComponent();
 
-        private void myButton_Click(object sender, RoutedEventArgs e)
-        {
-            myButton.Content = "Clicked";
+            ExtendsContentIntoTitleBar = true;
+            SetTitleBar(AppTitleBar);
         }
     }
 }
