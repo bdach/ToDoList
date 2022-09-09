@@ -5,6 +5,7 @@
     xmlns:local="using:Ticketron.App"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:views="using:Ticketron.App.Views"
     mc:Ignorable="d">
     <Grid>
         <Grid.RowDefinitions>
@@ -12,17 +13,9 @@
             <RowDefinition />
         </Grid.RowDefinitions>
 
-        <Grid x:Name="AppTitleBar">
-            <TextBlock Text="Ticketron"
-                       TextWrapping="NoWrap"
-                       VerticalAlignment="Center"
-                       HorizontalAlignment="Center" />
-        </Grid>
+        <views:TitleBar x:Name="AppTitleBar"/>
 
-        <NavigationView
-            Grid.Row="1"
-            IsSettingsVisible="False">
-            <Frame />
-        </NavigationView>
+        <views:TaskGroupNavigationView
+            Grid.Row="1" />
     </Grid>
 </Window>
