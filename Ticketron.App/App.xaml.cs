@@ -3,7 +3,9 @@ using System.IO;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Ticketron.App.ViewModels;
 using Ticketron.DB;
+using Ticketron.DB.Repositories;
 
 namespace Ticketron.App
 {
@@ -16,6 +18,11 @@ namespace Ticketron.App
         /// The current <see cref="App"/> instance in use.
         /// </summary>
         public new static App Current => (App)Application.Current;
+
+        /// <summary>
+        /// The global state of the application instance.
+        /// </summary>
+        public AppViewModel State = new AppViewModel();
 
         /// <summary>
         /// Gets the <see cref="IServiceProvider"/> used to resolve services.
@@ -49,6 +56,12 @@ namespace Ticketron.App
         {
             var migrationRunner = Services.GetRequiredService<IMigrationRunner>();
             migrationRunner.MigrateUp();
+
+            var taskGroupRepository = Services.GetRequiredService<ITaskGroupRepository>();
+            var taskGroups = taskGroupRepository.GetAllAsync().Result;
+
+            foreach (var taskGroup in taskGroups)
+                State.TaskGroups.Add(new TaskGroupViewModel(taskGroup));
 
             _window = new MainWindow();
             _window.Activate();

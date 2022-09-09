@@ -6,13 +6,10 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Ticketron.App.ViewModels"
     mc:Ignorable="d">
-    <UserControl.DataContext>
-        <viewModels:TaskGroupNavigationViewModel x:Name="ViewModel" />
-    </UserControl.DataContext>
 
     <NavigationView
-        Loaded="OnNavigationViewLoaded"
-        MenuItemsSource="{x:Bind ViewModel.TaskGroups, Mode=OneWay}">
+        MenuItemsSource="{x:Bind TaskGroups, Mode=OneWay}"
+        SelectionChanged="OnSelectionChanged">
         <NavigationView.MenuItemTemplate>
             <DataTemplate x:DataType="viewModels:TaskGroupViewModel">
                 <NavigationViewItem
@@ -23,6 +20,6 @@
                 </NavigationViewItem>
             </DataTemplate>
         </NavigationView.MenuItemTemplate>
-        <Frame />
+        <Frame x:Name="ContentFrame" />
     </NavigationView>
 </UserControl>

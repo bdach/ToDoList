@@ -2,7 +2,10 @@
 
 namespace Ticketron.App.ViewModels;
 
-public class TaskGroupNavigationViewModel
+public class AppViewModel
 {
+    /// <summary>
+    /// Contains all available task groups.
+    /// </summary>
     public ObservableCollection<TaskGroupViewModel> TaskGroups { get; } = new ObservableCollection<TaskGroupViewModel>();
 }

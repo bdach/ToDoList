@@ -1,30 +1,30 @@
-﻿using System.Threading.Tasks;
-using CommunityToolkit.Mvvm.Input;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.UI.Xaml;
+﻿using System.Collections.ObjectModel;
 using Microsoft.UI.Xaml.Controls;
 using Ticketron.App.ViewModels;
-using Ticketron.DB.Repositories;
+using Ticketron.App.Views.Settings;
 
 namespace Ticketron.App.Views
 {
     public sealed partial class TaskGroupNavigationView : UserControl
     {
-        private readonly ITaskGroupRepository _taskGroupRepository;
+        public ObservableCollection<TaskGroupViewModel> TaskGroups { get; }
 
         public TaskGroupNavigationView()
         {
-            this.InitializeComponent();
+            TaskGroups = App.Current.State.TaskGroups;
 
-            _taskGroupRepository = App.Current.Services.GetRequiredService<ITaskGroupRepository>();
+            this.InitializeComponent();
         }
 
-        private async void OnNavigationViewLoaded(object _, RoutedEventArgs __)
+        private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)
         {
-            var taskGroups = await _taskGroupRepository.GetAllAsync();
+            if (args.IsSettingsSelected)
+            {
+                sender.Header = "Settings";
+                ContentFrame.Navigate(typeof(SettingsPage));
+            }
 
-            foreach (var taskGroup in taskGroups)
-                ViewModel.TaskGroups.Add(new TaskGroupViewModel(taskGroup));
+            // TODO: Later.
         }
     }
 }
