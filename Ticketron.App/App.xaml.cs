@@ -1,4 +1,9 @@
-﻿using Microsoft.UI.Xaml;
+﻿using System;
+using System.IO;
+using FluentMigrator.Runner;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
+using Ticketron.DB;
 
 namespace Ticketron.App
 {
@@ -7,6 +12,16 @@ namespace Ticketron.App
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// The current <see cref="App"/> instance in use.
+        /// </summary>
+        public new static App Current => (App)Application.Current;
+
+        /// <summary>
+        /// Gets the <see cref="IServiceProvider"/> used to resolve services.
+        /// </summary>
+        public IServiceProvider Services { get; }
+
         private Window _window = null!;
 
         /// <summary>
@@ -16,6 +31,13 @@ namespace Ticketron.App
         public App()
         {
             this.InitializeComponent();
+
+            var storageDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Ticketron");
+            Directory.CreateDirectory(storageDirectory);
+
+            var services = new ServiceCollection();
+            services.AddTicketronDatabase(Path.Combine(storageDirectory, "data.db"));
+            Services = services.BuildServiceProvider();
         }
 
         /// <summary>
@@ -25,6 +47,9 @@ namespace Ticketron.App
         /// <param name="args">Details about the launch request and process.</param>
         protected override void OnLaunched(LaunchActivatedEventArgs args)
         {
+            var migrationRunner = Services.GetRequiredService<IMigrationRunner>();
+            migrationRunner.MigrateUp();
+
             _window = new MainWindow();
             _window.Activate();
         }
