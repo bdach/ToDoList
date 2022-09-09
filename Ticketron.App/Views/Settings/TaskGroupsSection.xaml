@@ -11,7 +11,7 @@
 
     <StackPanel Spacing="18">
         <TextBlock
-            Text="Task groups"
+            Text="Edit task groups"
             FontSize="18"
             FontWeight="Medium"/>
 
@@ -26,7 +26,8 @@
             ItemsSource="{x:Bind TaskGroups}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:TaskGroupViewModel">
-                    <Grid>
+                    <Grid
+                        Margin="15,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
@@ -36,13 +37,13 @@
                         </Grid.RowDefinitions>
 
                         <controls:EmojiPickerControl
-                            Margin="0,0,16,0"
-                            Emoji="{Binding Icon, Mode=TwoWay}" />
+                            Margin="0,0,15,0"
+                            Emoji="{x:Bind Icon, Mode=TwoWay}" />
 
-                        <TextBlock
+                        <TextBox
                             Grid.Column="1"
                             VerticalAlignment="Center"
-                            Text="{x:Bind Name}" />
+                            Text="{x:Bind Name, Mode=TwoWay}" />
                     </Grid>
                 </DataTemplate>
             </ListView.ItemTemplate>

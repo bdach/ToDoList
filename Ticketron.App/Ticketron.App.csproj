@@ -14,6 +14,7 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="Controls\ClickToEditControl.xaml" />
     <None Remove="Controls\EmojiPickerControl.xaml" />
     <None Remove="Resources\emoji-test.txt" />
     <None Remove="Views\Settings\SettingsPage.xaml" />
@@ -79,5 +80,10 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Controls\ClickToEditControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
 </Project>

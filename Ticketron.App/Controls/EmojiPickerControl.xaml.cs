@@ -5,7 +5,6 @@ using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Media;
 using Ticketron.App.Utilities;
 
-
 namespace Ticketron.App.Controls
 {
     public sealed partial class EmojiPickerControl : UserControl
