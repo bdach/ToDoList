@@ -13,9 +13,9 @@
         <NavigationView.MenuItemTemplate>
             <DataTemplate x:DataType="viewModels:TaskGroupViewModel">
                 <NavigationViewItem
-                    Content="{x:Bind Name}">
+                    Content="{x:Bind Name, Mode=OneWay}">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="{x:Bind Icon}" />
+                        <FontIcon Glyph="{x:Bind Icon, Mode=OneWay}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </DataTemplate>

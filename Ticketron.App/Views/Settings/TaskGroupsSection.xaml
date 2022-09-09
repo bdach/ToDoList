@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Ticketron.App.ViewModels"
+    xmlns:controls="using:Ticketron.App.Controls"
     mc:Ignorable="d">
 
     <StackPanel Spacing="18">
@@ -30,13 +31,13 @@
                             <ColumnDefinition Width="Auto" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
 
-                        <TextBlock
-                            VerticalAlignment="Center"
-                            HorizontalAlignment="Center"
-                            FontSize="18"
+                        <controls:EmojiPickerControl
                             Margin="0,0,16,0"
-                            Text="{x:Bind Icon}" />
+                            Emoji="{Binding Icon, Mode=TwoWay}" />
 
                         <TextBlock
                             Grid.Column="1"
