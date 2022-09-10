@@ -17,7 +17,7 @@
 
         <views:TitleBar x:Name="AppTitleBar"/>
 
-        <views:TaskGroupNavigationView
+        <views:AppNavigationView
             Grid.Row="1" />
     </Grid>
 </Window>
