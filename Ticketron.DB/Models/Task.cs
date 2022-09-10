@@ -18,6 +18,11 @@ public class Task
     public bool Done { get; set; }
 
     /// <summary>
+    /// Optional date for when work on the task is scheduled to be continued.
+    /// </summary>
+    public DateTime? ScheduledFor { get; set; }
+
+    /// <summary>
     /// The ID of the <see cref="TaskGroup"/> that this task belongs to.
     /// </summary>
     public int GroupId { get; internal set; }

@@ -10,13 +10,13 @@ using Ticketron.App.Views.Tasks.Controls;
 
 namespace Ticketron.App.Views.Tasks
 {
-    public sealed partial class TasksPage : Page
+    public sealed partial class TaskGroupPage : Page
     {
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(
                 nameof(ViewModel),
                 typeof(TaskListViewModel),
-                typeof(TasksPage),
+                typeof(TaskGroupPage),
                 new PropertyMetadata(default(TaskListViewModel)));
 
         public TaskListViewModel ViewModel
@@ -25,7 +25,7 @@ namespace Ticketron.App.Views.Tasks
             set => SetValue(ViewModelProperty, value);
         }
 
-        public TasksPage()
+        public TaskGroupPage()
         {
             this.InitializeComponent();
         }

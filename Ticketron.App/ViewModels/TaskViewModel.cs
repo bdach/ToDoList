@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Ticketron.DB.Models;
 
 namespace Ticketron.App.ViewModels;
@@ -27,5 +28,11 @@ public class TaskViewModel : ObservableObject
     {
         get => Model.Done;
         set => SetProperty(Model.Done, value, Model, (task, done) => task.Done = done);
+    }
+
+    public DateTime? ScheduledFor
+    {
+        get => Model.ScheduledFor;
+        set => SetProperty(Model.ScheduledFor, value, Model, (task, scheduledFor) => task.ScheduledFor = scheduledFor);
     }
 }

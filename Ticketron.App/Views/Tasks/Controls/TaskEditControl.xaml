@@ -5,15 +5,36 @@
     xmlns:local="using:Ticketron.App.Views.Tasks.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:utilities="using:Ticketron.App.Utilities"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <utilities:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
+    </UserControl.Resources>
 
-    <StackPanel
-        Spacing="15"
+    <Grid
+        RowSpacing="15"
+        ColumnSpacing="15"
         Padding="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
         <TextBox
             Text="{x:Bind ViewModel.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
             FontSize="24"
             FontWeight="Medium"
             TextWrapping="Wrap" />
-    </StackPanel>
+
+        <CalendarDatePicker
+            Grid.Row="1"
+            VerticalAlignment="Center"
+            HorizontalAlignment="Stretch"
+            Header="Scheduled for"
+            FirstDayOfWeek="Monday"
+            PlaceholderText="select a date"
+            DateFormat="{}{dayofweek.full}‎, ‎{month.full}‎ ‎{day.integer}‎, ‎{year.full}"
+            Date="{x:Bind ViewModel.ScheduledFor, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+    </Grid>
 </UserControl>
