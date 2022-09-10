@@ -31,7 +31,7 @@ namespace Ticketron.App
         public IServiceProvider Services { get; }
 
         private Window _window = null!;
-        private StatePersistenceManager _statePersistenceManager = null!;
+        private AppStatePersistenceManager _appStatePersistenceManager = null!;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -45,7 +45,9 @@ namespace Ticketron.App
             Directory.CreateDirectory(storageDirectory);
 
             var services = new ServiceCollection();
-            services.AddTicketronDatabase(Path.Combine(storageDirectory, "data.db"));
+            services
+                .AddTicketronDatabase(Path.Combine(storageDirectory, "data.db"))
+                .AddPersistenceManagers();
             Services = services.BuildServiceProvider();
         }
 
@@ -59,9 +61,8 @@ namespace Ticketron.App
             var migrationRunner = Services.GetRequiredService<IMigrationRunner>();
             migrationRunner.MigrateUp();
 
-            var taskGroupRepository = Services.GetRequiredService<ITaskGroupRepository>();
-            _statePersistenceManager = new StatePersistenceManager(taskGroupRepository);
-            State = _statePersistenceManager.LoadAppState().Result;
+            _appStatePersistenceManager = Services.GetRequiredService<AppStatePersistenceManager>();
+            State = _appStatePersistenceManager.LoadAppState().Result;
 
             _window = new MainWindow();
             _window.Activate();

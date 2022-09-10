@@ -8,6 +8,11 @@ public interface ITaskGroupRepository
     Task<ICollection<Models.TaskGroup>> GetAllAsync();
 
     /// <summary>
+    /// Returns the <see cref="Models.TaskGroup"/> with the given ID.
+    /// </summary>
+    Task<Models.TaskGroup> GetAsync(int id);
+
+    /// <summary>
     /// Creates the supplied <paramref name="taskGroups"/> in the database.
     /// </summary>
     Task CreateAsync(params Models.TaskGroup[] taskGroups);

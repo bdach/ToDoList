@@ -7,11 +7,11 @@ using Ticketron.DB.Repositories;
 
 namespace Ticketron.App.Persistence;
 
-public class StatePersistenceManager
+public class AppStatePersistenceManager
 {
     private readonly ITaskGroupRepository _taskGroupRepository;
 
-    public StatePersistenceManager(
+    public AppStatePersistenceManager(
         ITaskGroupRepository taskGroupRepository)
     {
         _taskGroupRepository = taskGroupRepository;

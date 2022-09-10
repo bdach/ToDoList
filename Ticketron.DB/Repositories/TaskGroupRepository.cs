@@ -18,6 +18,14 @@ public class TaskGroupRepository : ITaskGroupRepository
         return (await connection.QueryAsync<Models.TaskGroup>(@"SELECT * FROM TaskGroups")).ToList();
     }
 
+    public async Task<Models.TaskGroup> GetAsync(int id)
+    {
+        using var connection = _dbConnectionFactory.Create();
+
+        return await connection.QuerySingleAsync<Models.TaskGroup>(@"SELECT * FROM TaskGroups WHERE Id = @Id",
+            new { Id = id });
+    }
+
     public async Task CreateAsync(params Models.TaskGroup[] taskGroups)
     {
         using var connection = _dbConnectionFactory.Create();

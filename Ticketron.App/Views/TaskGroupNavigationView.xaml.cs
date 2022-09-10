@@ -2,6 +2,7 @@
 using Microsoft.UI.Xaml.Controls;
 using Ticketron.App.ViewModels;
 using Ticketron.App.Views.Settings;
+using Ticketron.App.Views.Tasks;
 
 namespace Ticketron.App.Views
 {
@@ -22,9 +23,12 @@ namespace Ticketron.App.Views
             {
                 sender.Header = "Settings";
                 ContentFrame.Navigate(typeof(SettingsPage));
+                return;
             }
 
-            // TODO: Later.
+            var selectedTaskGroup = (TaskGroupViewModel)sender.SelectedItem;
+            sender.Header = $"{selectedTaskGroup.Icon} {selectedTaskGroup.Name}";
+            ContentFrame.Navigate(typeof(TasksPage), selectedTaskGroup.Model.Id);
         }
     }
 }
