@@ -1,8 +1,14 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.UI.Xaml;
 using Ticketron.App.ViewModels;
 using Ticketron.App.Views.Settings.Controls;
+using Ticketron.DB.Models;
+using Ticketron.DB.Repositories;
 
 namespace Ticketron.App.Views.Settings
 {
@@ -14,11 +20,10 @@ namespace Ticketron.App.Views.Settings
         public TaskGroupsSection()
         {
             TaskGroups = App.Current.State.TaskGroups;
-
             this.InitializeComponent();
         }
 
-        private void TaskGroupCreated(object sender, TaskGroupEditControl.TaskGroupEditedEventArgs args)
+        private void TaskGroupCreateRequested(object sender, TaskGroupEditControl.TaskGroupEditedEventArgs args)
         {
             TaskGroups.Add(new TaskGroupViewModel(args.EditResult));
 
@@ -26,7 +31,7 @@ namespace Ticketron.App.Views.Settings
             editControl.Reset();
         }
 
-        private void TaskGroupDeleted(object sender, TaskGroupListItem.TaskGroupDeletedEventArgs args)
+        private void TaskGroupDeleteRequested(object sender, TaskGroupListItem.TaskGroupDeletedEventArgs args)
         {
             var toDelete = TaskGroups.SingleOrDefault(group => group.Model.Id == args.DeletedGroup.Id);
             if (toDelete != null)

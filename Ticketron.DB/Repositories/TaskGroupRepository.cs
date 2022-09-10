@@ -18,32 +18,51 @@ public class TaskGroupRepository : ITaskGroupRepository
         return (await connection.QueryAsync<Models.TaskGroup>(@"SELECT * FROM TaskGroups")).ToList();
     }
 
-    public async Task CreateAsync(Models.TaskGroup taskGroup)
+    public async Task CreateAsync(params Models.TaskGroup[] taskGroups)
     {
         using var connection = _dbConnectionFactory.Create();
 
-        await connection.ExecuteAsync(
-            @"INSERT INTO TaskGroups
-                    (Id, Icon, Name)
-                VALUES
-                    (@id, @icon, @name)", taskGroup);
+        connection.Open();
+        using var transaction = connection.BeginTransaction();
+
+        foreach (var taskGroup in taskGroups)
+        {
+            taskGroup.Id = await connection.QuerySingleAsync<int>(
+                @"INSERT INTO TaskGroups
+                        (Icon, Name)
+                    VALUES
+                        (@Icon, @Name)
+                    RETURNING Id", taskGroup, transaction);
+        }
+
+        transaction.Commit();
     }
 
-    public async Task UpdateAsync(Models.TaskGroup taskGroup)
+    public async Task UpdateAsync(params Models.TaskGroup[] taskGroups)
     {
         using var connection = _dbConnectionFactory.Create();
+
+        connection.Open();
+        using var transaction = connection.BeginTransaction();
 
         await connection.ExecuteAsync(
             @"UPDATE TaskGroups
-                SET Icon = @icon,
-                    Name = @name
-                WHERE Id = @id", taskGroup);
+                SET Icon = @Icon,
+                    Name = @Name
+                WHERE Id = @Id", taskGroups, transaction);
+
+        transaction.Commit();
     }
 
-    public async Task DeleteAsync(Models.TaskGroup taskGroup)
+    public async Task DeleteAsync(params Models.TaskGroup[] taskGroups)
     {
         using var connection = _dbConnectionFactory.Create();
 
-        await connection.ExecuteAsync(@"DELETE FROM TaskGroups WHERE Id = @id", taskGroup);
+        connection.Open();
+        using var transaction = connection.BeginTransaction();
+
+        await connection.ExecuteAsync(@"DELETE FROM TaskGroups WHERE Id = @Id", taskGroups);
+
+        transaction.Commit();
     }
 }

@@ -3,6 +3,7 @@ using System.IO;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Ticketron.App.Persistence;
 using Ticketron.App.ViewModels;
 using Ticketron.DB;
 using Ticketron.DB.Repositories;
@@ -22,7 +23,7 @@ namespace Ticketron.App
         /// <summary>
         /// The global state of the application instance.
         /// </summary>
-        public AppViewModel State = new AppViewModel();
+        public AppViewModel State { get; private set; } = null!;
 
         /// <summary>
         /// Gets the <see cref="IServiceProvider"/> used to resolve services.
@@ -30,6 +31,7 @@ namespace Ticketron.App
         public IServiceProvider Services { get; }
 
         private Window _window = null!;
+        private StatePersistenceManager _statePersistenceManager = null!;
 
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
@@ -58,10 +60,8 @@ namespace Ticketron.App
             migrationRunner.MigrateUp();
 
             var taskGroupRepository = Services.GetRequiredService<ITaskGroupRepository>();
-            var taskGroups = taskGroupRepository.GetAllAsync().Result;
-
-            foreach (var taskGroup in taskGroups)
-                State.TaskGroups.Add(new TaskGroupViewModel(taskGroup));
+            _statePersistenceManager = new StatePersistenceManager(taskGroupRepository);
+            State = _statePersistenceManager.LoadAppState().Result;
 
             _window = new MainWindow();
             _window.Activate();

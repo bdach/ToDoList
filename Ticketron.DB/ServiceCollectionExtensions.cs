@@ -21,10 +21,10 @@ public static class ServiceCollectionExtensions
                 .ScanIn(typeof(ServiceCollectionExtensions).Assembly).For.Migrations())
             .AddLogging(logging => logging.AddFluentMigratorConsole());
 
-        serviceCollection.AddTransient<IDbConnectionFactory>(_ => new SqliteDbConnectionFactory(connectionString));
+        serviceCollection.AddSingleton<IDbConnectionFactory>(_ => new SqliteDbConnectionFactory(connectionString));
 
-        serviceCollection.AddTransient<ITaskRepository, TaskRepository>();
-        serviceCollection.AddTransient<ITaskGroupRepository, TaskGroupRepository>();
+        serviceCollection.AddSingleton<ITaskRepository, TaskRepository>();
+        serviceCollection.AddSingleton<ITaskGroupRepository, TaskGroupRepository>();
 
         return serviceCollection;
     }

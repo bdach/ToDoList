@@ -8,7 +8,7 @@ public class AddTaskTable : Migration
     public override void Up()
     {
         Create.Table("Tasks")
-            .WithColumn("Id").AsInt64().PrimaryKey()
+            .WithColumn("Id").AsInt64().PrimaryKey().Identity()
             .WithColumn("Title").AsString()
             .WithColumn("Done").AsBoolean();
     }

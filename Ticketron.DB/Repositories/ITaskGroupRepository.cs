@@ -8,17 +8,17 @@ public interface ITaskGroupRepository
     Task<ICollection<Models.TaskGroup>> GetAllAsync();
 
     /// <summary>
-    /// Creates the supplied <paramref name="taskGroup"/> in the database.
+    /// Creates the supplied <paramref name="taskGroups"/> in the database.
     /// </summary>
-    Task CreateAsync(Models.TaskGroup taskGroup);
+    Task CreateAsync(params Models.TaskGroup[] taskGroups);
 
     /// <summary>
-    /// Updates the supplied <paramref name="taskGroup"/> in the database.
+    /// Updates the supplied <paramref name="taskGroups"/> in the database.
     /// </summary>
-    Task UpdateAsync(Models.TaskGroup taskGroup);
+    Task UpdateAsync(params Models.TaskGroup[] taskGroups);
 
     /// <summary>
-    /// Deletes the supplied <paramref name="taskGroup"/> from the database.
+    /// Deletes the supplied <paramref name="taskGroups"/> from the database.
     /// </summary>
-    Task DeleteAsync(Models.TaskGroup taskGroup);
+    Task DeleteAsync(params Models.TaskGroup[] taskGroups);
 }

@@ -5,7 +5,7 @@
 /// </summary>
 public class TaskGroup
 {
-    public int Id { get; init; }
+    public int Id { get; internal set; }
 
     /// <summary>
     /// The string to be used as the icon that represents the task group.

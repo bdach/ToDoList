@@ -8,7 +8,7 @@ public class AddTaskGroupTable : Migration
     public override void Up()
     {
         Create.Table("TaskGroups")
-            .WithColumn("Id").AsInt32().PrimaryKey()
+            .WithColumn("Id").AsInt32().PrimaryKey().Identity()
             .WithColumn("Icon").AsString()
             .WithColumn("Name").AsString();
 
