@@ -7,6 +7,11 @@ public class TaskViewModel : ObservableObject
 {
     public Task Model { get; }
 
+    public TaskViewModel(TaskGroupViewModel taskGroup)
+        : this(new Task(taskGroup.Model))
+    {
+    }
+
     public TaskViewModel(Task task)
     {
         Model = task;

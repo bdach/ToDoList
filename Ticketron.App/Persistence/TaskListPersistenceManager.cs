@@ -25,5 +25,7 @@ public class TaskListPersistenceManager
         return new TaskListViewModel(taskGroup, tasks, this);
     }
 
+    public Task CreateAsync(TaskViewModel taskViewModel) => _taskRepository.CreateAsync(taskViewModel.Model);
+
     public Task UpdateAsync(TaskViewModel taskViewModel) => _taskRepository.UpdateAsync(taskViewModel.Model);
 }

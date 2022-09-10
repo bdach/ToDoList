@@ -1,9 +1,12 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using FluentMigrator.Runner;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
+using Serilog;
 using Ticketron.App.Persistence;
+using Ticketron.App.Utilities;
 using Ticketron.App.ViewModels;
 using Ticketron.DB;
 using Ticketron.DB.Repositories;
@@ -41,14 +44,33 @@ namespace Ticketron.App
         {
             this.InitializeComponent();
 
-            var storageDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "Ticketron");
+            var storageDirectory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "Ticketron");
             Directory.CreateDirectory(storageDirectory);
 
             var services = new ServiceCollection();
             services
                 .AddTicketronDatabase(Path.Combine(storageDirectory, "data.db"))
+                .AddSerilogLogging(Path.Combine(storageDirectory, "log.txt"))
                 .AddPersistenceManagers();
             Services = services.BuildServiceProvider();
+
+            UnhandledException += (_, exception) =>
+            {
+                var logger = Services.GetRequiredService<ILogger>();
+                logger.Error(exception.Exception, "Unhandled exception caught.");
+            };
+
+            AppDomain.CurrentDomain.UnhandledException += (_, exception) =>
+            {
+                var logger = Services.GetRequiredService<ILogger>();
+                logger.Error((Exception)exception.ExceptionObject, "Unhandled exception caught.");
+            };
+
+            TaskScheduler.UnobservedTaskException += (_, exception) =>
+            {
+                var logger = Services.GetRequiredService<ILogger>();
+                logger.Error(exception.Exception.Flatten(), "Unobserved exception caught.");
+            };
         }
 
         /// <summary>

@@ -12,27 +12,33 @@ public class TaskListViewModel
 {
     public TaskGroupViewModel Group { get; set; }
 
-    public ObservableCollection<TaskViewModel> AllTasks { get; }
-    public ObservableCollection<TaskGrouping> GroupedTasks { get; }
+    public ReadOnlyObservableCollection<TaskViewModel> AllTasks { get; }
+    public ReadOnlyObservableCollection<TaskGrouping> GroupedTasks { get; }
 
     private readonly TaskListPersistenceManager _persistenceManager;
+
+    private readonly ObservableCollection<TaskViewModel> _allTasks;
+    private readonly ObservableCollection<TaskGrouping> _groupedTasks;
 
     public TaskListViewModel(TaskGroup group, IEnumerable<Task> tasks, TaskListPersistenceManager persistenceManager)
     {
         Group = new TaskGroupViewModel(group);
         _persistenceManager = persistenceManager;
 
-        AllTasks = new ObservableCollection<TaskViewModel>();
+        _allTasks = new ObservableCollection<TaskViewModel>();
+        AllTasks = new ReadOnlyObservableCollection<TaskViewModel>(_allTasks);
+
         foreach (var task in tasks)
         {
             var viewModel = new TaskViewModel(task);
             viewModel.PropertyChanged += TaskPropertyChanged;
-            AllTasks.Add(viewModel);
+            _allTasks.Add(viewModel);
         }
 
-        AllTasks.CollectionChanged += TaskCollectionChanged;
+        _allTasks.CollectionChanged += TaskCollectionChanged;
 
-        GroupedTasks = new ObservableCollection<TaskGrouping>();
+        _groupedTasks = new ObservableCollection<TaskGrouping>();
+        GroupedTasks = new ReadOnlyObservableCollection<TaskGrouping>(_groupedTasks);
         RegroupTasks();
     }
 
@@ -67,10 +73,16 @@ public class TaskListViewModel
 
     private void RegroupTasks()
     {
-        GroupedTasks.Clear();
+        _groupedTasks.Clear();
 
-        GroupedTasks.Add(new TaskGrouping(false, AllTasks.Where(task => !task.Done)));
-        GroupedTasks.Add(new TaskGrouping(true, AllTasks.Where(task => task.Done)));
+        _groupedTasks.Add(new TaskGrouping(false, AllTasks.Where(task => !task.Done)));
+        _groupedTasks.Add(new TaskGrouping(true, AllTasks.Where(task => task.Done)));
+    }
+
+    public async System.Threading.Tasks.Task AddTask(TaskViewModel task)
+    {
+        await _persistenceManager.CreateAsync(task);
+        _allTasks.Add(task);
     }
 }
 

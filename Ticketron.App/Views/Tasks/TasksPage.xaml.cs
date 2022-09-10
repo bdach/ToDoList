@@ -1,7 +1,10 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
+using Windows.System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Ticketron.App.Persistence;
 using Ticketron.App.ViewModels;
@@ -23,13 +26,9 @@ namespace Ticketron.App.Views.Tasks
             set => SetValue(ViewModelProperty, value);
         }
 
-        private readonly TaskListPersistenceManager _persistenceManager;
-
         public TasksPage()
         {
             this.InitializeComponent();
-
-            _persistenceManager = App.Current.Services.GetRequiredService<TaskListPersistenceManager>();
         }
 
         protected override async void OnNavigatedTo(NavigationEventArgs e)
@@ -37,9 +36,21 @@ namespace Ticketron.App.Views.Tasks
             base.OnNavigatedTo(e);
 
             var taskGroupId = (int)e.Parameter;
-            ViewModel = await _persistenceManager.LoadState(taskGroupId);
+            var persistenceManager = App.Current.Services.GetRequiredService<TaskListPersistenceManager>();
+            ViewModel = await persistenceManager.LoadState(taskGroupId);
 
             TasksCollectionViewSource.Source = ViewModel.GroupedTasks;
+        }
+
+        private async void OnTaskEntryKeyDown(object sender, KeyRoutedEventArgs e)
+        {
+            if (e.Key != VirtualKey.Enter || string.IsNullOrEmpty(TaskEntryTextBox.Text))
+                return;
+
+            var newTask = new TaskViewModel(ViewModel.Group) { Title = TaskEntryTextBox.Text };
+            await ViewModel.AddTask(newTask);
+
+            TaskEntryTextBox.Text = string.Empty;
         }
     }
 }

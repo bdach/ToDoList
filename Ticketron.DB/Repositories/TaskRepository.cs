@@ -36,9 +36,9 @@ public class TaskRepository : ITaskRepository
 
         task.Id = await connection.QuerySingleAsync<long>(
             @"INSERT INTO Tasks
-                    (Title, Done)
+                    (Title, Done, GroupId)
                 VALUES
-                    (@Title, @Done)
+                    (@Title, @Done, @GroupId)
                 RETURNING Id", task);
     }
 
@@ -49,7 +49,8 @@ public class TaskRepository : ITaskRepository
         await connection.ExecuteAsync(
             @"UPDATE Tasks
             SET Title = @Title,
-                Done = @Done
+                Done = @Done,
+                GroupId = @GroupId
             WHERE Id = @Id", task);
     }
 

@@ -50,6 +50,8 @@
         </ListView>
 
         <TextBox
+            x:Name="TaskEntryTextBox"
+            KeyDown="OnTaskEntryKeyDown"
             Grid.Row="1"
             PlaceholderText="Type task name here. Enter to confirm."></TextBox>
     </Grid>
