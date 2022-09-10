@@ -22,14 +22,14 @@
             SelectionMode="Single"
             BorderThickness="1"
             BorderBrush="{ThemeResource SystemControlForegroundListLowBrush}"
-            MaxHeight="250"
+            Height="250"
             ItemsSource="{x:Bind TaskGroups}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:TaskGroupViewModel">
-                    <controls:TaskGroupEditControl
+                    <controls:TaskGroupListItem
                         Margin="15,0"
                         ViewModel="{x:Bind}"
-                        Mode="Edit" />
+                        TaskGroupDeleted="TaskGroupDeleted" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

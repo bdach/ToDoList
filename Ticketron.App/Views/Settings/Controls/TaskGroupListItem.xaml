@@ -1,0 +1,67 @@
+﻿<UserControl
+    x:Class="Ticketron.App.Views.Settings.Controls.TaskGroupListItem"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:Ticketron.App.Views.Settings.Controls"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <XamlUICommand
+            x:Name="EditUICommand"
+            Label="Edit"
+            ExecuteRequested="TaskGroupEditRequested">
+            <XamlUICommand.IconSource>
+                <SymbolIconSource Symbol="Edit" />
+            </XamlUICommand.IconSource>
+        </XamlUICommand>
+        <XamlUICommand
+            x:Name="DeleteUICommand"
+            Label="Delete"
+            ExecuteRequested="TaskGroupDeleteRequested">
+            <XamlUICommand.IconSource>
+                <SymbolIconSource Symbol="Delete" />
+            </XamlUICommand.IconSource>
+        </XamlUICommand>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid x:Name="ViewControl">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="50" />
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+
+            <TextBlock
+                Text="{x:Bind ViewModel.Icon, Mode=OneWay}"
+                FontSize="18"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center" />
+
+            <TextBlock
+                Grid.Column="1"
+                Margin="15,0,0,0"
+                Text="{x:Bind ViewModel.Name, Mode=OneWay}"
+                VerticalAlignment="Center" />
+
+            <CommandBar
+                Grid.Column="2"
+                DefaultLabelPosition="Right">
+                <AppBarButton Command="{StaticResource EditUICommand}" />
+                <AppBarButton Command="{StaticResource DeleteUICommand}" />
+            </CommandBar>
+            
+        </Grid>
+
+        <local:TaskGroupEditControl
+            x:Name="EditControl"
+            Visibility="Collapsed"
+            ViewModel="{x:Bind ViewModel, Mode=OneWay}"
+            Mode="Edit"
+            TaskGroupEditCompleted="TaskGroupEditCompleted" />
+    </Grid>
+</UserControl>

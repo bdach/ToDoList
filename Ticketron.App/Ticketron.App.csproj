@@ -17,6 +17,7 @@
     <None Remove="Controls\EmojiPickerControl.xaml" />
     <None Remove="Controls\TaskGroupEditControl.xaml" />
     <None Remove="Resources\emoji-test.txt" />
+    <None Remove="Views\Settings\Controls\TaskGroupListItem.xaml" />
     <None Remove="Views\Settings\SettingsPage.xaml" />
     <None Remove="Views\Settings\TaskGroupsSection.xaml" />
     <None Remove="Views\TaskGroupNavigationView.xaml" />
@@ -80,6 +81,11 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Utilities\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Settings\Controls\TaskGroupListItem.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Settings\Controls\TaskGroupEditControl.xaml">
