@@ -55,10 +55,7 @@ namespace Ticketron.App.Views.Tasks
         private async void TaskDeleteRequested(object sender, TaskListItemControl.TaskDeletedEventArgs e)
             => await ViewModel.DeleteTask(e.DeletedTask);
 
-        private void TaskViewRequested(object sender, TaskListItemControl.TaskViewedEventArgs e)
-        {
-            SplitView.IsPaneOpen = true;
-            TaskEditControl.ViewModel = e.TaskToView;
-        }
+        private void SelectedTaskChanged(object sender, SelectionChangedEventArgs e)
+            => SplitView.IsPaneOpen = TaskListView.SelectedItem is TaskViewModel;
     }
 }

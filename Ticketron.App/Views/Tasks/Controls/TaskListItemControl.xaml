@@ -14,14 +14,6 @@
                 <SymbolIconSource Symbol="Delete" />
             </XamlUICommand.IconSource>
         </XamlUICommand>
-        <XamlUICommand
-            x:Name="ViewUICommand"
-            Label="View"
-            ExecuteRequested="TaskViewRequested">
-            <XamlUICommand.IconSource>
-                <SymbolIconSource Symbol="View" />
-            </XamlUICommand.IconSource>
-        </XamlUICommand>
     </UserControl.Resources>
 
     <Grid
@@ -49,8 +41,6 @@
             Opacity="0"
             Grid.Column="2"
             DefaultLabelPosition="Right">
-
-            <AppBarButton Command="{StaticResource ViewUICommand}" />
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton Command="{StaticResource DeleteUICommand}" />

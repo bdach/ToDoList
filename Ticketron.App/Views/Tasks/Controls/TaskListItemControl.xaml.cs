@@ -43,24 +43,6 @@ namespace Ticketron.App.Views.Tasks.Controls
 
         #endregion
 
-        #region TaskViewed
-
-        public class TaskViewedEventArgs : EventArgs
-        {
-            public TaskViewModel TaskToView { get; }
-
-            public TaskViewedEventArgs(TaskViewModel taskToView)
-            {
-                TaskToView = taskToView;
-            }
-        }
-
-        public delegate void TaskViewRequestedEventHandler(object sender, TaskViewedEventArgs e);
-
-        public event TaskViewRequestedEventHandler? TaskViewed;
-
-        #endregion
-
         public TaskListItemControl()
         {
             this.InitializeComponent();
@@ -74,8 +56,5 @@ namespace Ticketron.App.Views.Tasks.Controls
 
         private void TaskDeleteRequested(XamlUICommand _, ExecuteRequestedEventArgs __)
             => TaskDeleted?.Invoke(this, new TaskDeletedEventArgs(ViewModel));
-
-        private void TaskViewRequested(XamlUICommand _, ExecuteRequestedEventArgs __)
-            => TaskViewed?.Invoke(this, new TaskViewedEventArgs(ViewModel));
     }
 }
