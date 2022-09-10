@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using Windows.System;
+﻿using Windows.System;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -56,5 +54,11 @@ namespace Ticketron.App.Views.Tasks
 
         private async void TaskDeleteRequested(object sender, TaskListItemControl.TaskDeletedEventArgs e)
             => await ViewModel.DeleteTask(e.DeletedTask);
+
+        private void TaskViewRequested(object sender, TaskListItemControl.TaskViewedEventArgs e)
+        {
+            SplitView.IsPaneOpen = true;
+            TaskEditControl.ViewModel = e.TaskToView;
+        }
     }
 }

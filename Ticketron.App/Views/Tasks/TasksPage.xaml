@@ -14,45 +14,57 @@
             IsSourceGrouped="True" />
     </Page.Resources>
 
-    <Grid
-        Padding="30"
-        RowSpacing="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <SplitView
+        x:Name="SplitView"
+        PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
+        DisplayMode="Overlay"
+        PanePlacement="Right"
+        OpenPaneLength="400">
+        <SplitView.Pane>
+            <controls:TaskEditControl
+                x:Name="TaskEditControl" />
+        </SplitView.Pane>
+        <Grid
+            Padding="30"
+            RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <ListView
-            ItemsSource="{x:Bind TasksCollectionViewSource.View, Mode=OneWay}">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsStackPanel AreStickyGroupHeadersEnabled="True" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate x:DataType="viewModels:TaskGrouping">
-                            <Border>
-                                <TextBlock Text="{x:Bind Header}" Style="{ThemeResource TitleTextBlockStyle}" />
-                            </Border>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </ListView.GroupStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="viewModels:TaskViewModel">
-                    <controls:TaskListItemControl
-                        ViewModel="{x:Bind}"
-                        TaskDeleted="TaskDeleteRequested" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
+            <ListView
+                ItemsSource="{x:Bind TasksCollectionViewSource.View, Mode=OneWay}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel AreStickyGroupHeadersEnabled="True" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate x:DataType="viewModels:TaskGrouping">
+                                <Border>
+                                    <TextBlock Text="{x:Bind Header}" Style="{ThemeResource TitleTextBlockStyle}" />
+                                </Border>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:TaskViewModel">
+                        <controls:TaskListItemControl
+                            ViewModel="{x:Bind}"
+                            TaskDeleted="TaskDeleteRequested"
+                            TaskViewed="TaskViewRequested"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
 
-        <TextBox
-            x:Name="TaskEntryTextBox"
-            KeyDown="OnTaskEntryKeyDown"
-            Grid.Row="1"
-            PlaceholderText="Type task name here. Enter to confirm."></TextBox>
-    </Grid>
+            <TextBox
+                x:Name="TaskEntryTextBox"
+                KeyDown="OnTaskEntryKeyDown"
+                Grid.Row="1"
+                PlaceholderText="Type task name here. Enter to confirm." />
+        </Grid>
+    </SplitView>
 </Page>
