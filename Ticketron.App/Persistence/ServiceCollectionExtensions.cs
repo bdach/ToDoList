@@ -7,7 +7,7 @@ public static class ServiceCollectionExtensions
     public static IServiceCollection AddPersistenceManagers(this IServiceCollection serviceCollection)
     {
         serviceCollection.AddSingleton<AppStatePersistenceManager>();
-        serviceCollection.AddSingleton<TaskListPersistenceManager>();
+        serviceCollection.AddSingleton<TaskGroupPagePersistenceManager>();
 
         return serviceCollection;
     }

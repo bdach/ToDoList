@@ -44,7 +44,7 @@
                 <ListView.GroupStyle>
                     <GroupStyle>
                         <GroupStyle.HeaderTemplate>
-                            <DataTemplate x:DataType="viewModels:TaskGrouping">
+                            <DataTemplate x:DataType="viewModels:TaskGroupPageGrouping">
                                 <Border>
                                     <TextBlock Text="{x:Bind Header}" Style="{ThemeResource TitleTextBlockStyle}" />
                                 </Border>

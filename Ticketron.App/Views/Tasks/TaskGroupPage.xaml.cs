@@ -15,13 +15,13 @@ namespace Ticketron.App.Views.Tasks
         public static readonly DependencyProperty ViewModelProperty =
             DependencyProperty.Register(
                 nameof(ViewModel),
-                typeof(TaskListViewModel),
+                typeof(TaskGroupPageViewModel),
                 typeof(TaskGroupPage),
-                new PropertyMetadata(default(TaskListViewModel)));
+                new PropertyMetadata(default(TaskGroupPageViewModel)));
 
-        public TaskListViewModel ViewModel
+        public TaskGroupPageViewModel ViewModel
         {
-            get => (TaskListViewModel)GetValue(ViewModelProperty);
+            get => (TaskGroupPageViewModel)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
@@ -35,7 +35,7 @@ namespace Ticketron.App.Views.Tasks
             base.OnNavigatedTo(e);
 
             var taskGroupId = (int)e.Parameter;
-            var persistenceManager = App.Current.Services.GetRequiredService<TaskListPersistenceManager>();
+            var persistenceManager = App.Current.Services.GetRequiredService<TaskGroupPagePersistenceManager>();
             ViewModel = await persistenceManager.LoadState(taskGroupId);
 
             TasksCollectionViewSource.Source = ViewModel.GroupedTasks;

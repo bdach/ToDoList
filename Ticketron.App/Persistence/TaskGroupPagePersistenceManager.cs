@@ -4,12 +4,12 @@ using Ticketron.DB.Repositories;
 
 namespace Ticketron.App.Persistence;
 
-public class TaskListPersistenceManager
+public class TaskGroupPagePersistenceManager
 {
     private readonly ITaskGroupRepository _taskGroupRepository;
     private readonly ITaskRepository _taskRepository;
 
-    public TaskListPersistenceManager(
+    public TaskGroupPagePersistenceManager(
         ITaskGroupRepository taskGroupRepository,
         ITaskRepository taskRepository)
     {
@@ -17,12 +17,12 @@ public class TaskListPersistenceManager
         _taskRepository = taskRepository;
     }
 
-    public async Task<TaskListViewModel> LoadState(int taskGroupId)
+    public async Task<TaskGroupPageViewModel> LoadState(int taskGroupId)
     {
         var taskGroup = await _taskGroupRepository.GetAsync(taskGroupId);
         var tasks = await _taskRepository.GetForGroupAsync(taskGroup);
 
-        return new TaskListViewModel(taskGroup, tasks, this);
+        return new TaskGroupPageViewModel(taskGroup, tasks, this);
     }
 
     public Task CreateAsync(TaskViewModel taskViewModel) => _taskRepository.CreateAsync(taskViewModel.Model);

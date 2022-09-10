@@ -8,19 +8,19 @@ using Ticketron.DB.Models;
 
 namespace Ticketron.App.ViewModels;
 
-public class TaskListViewModel
+public class TaskGroupPageViewModel
 {
     public TaskGroupViewModel Group { get; set; }
 
     public ReadOnlyObservableCollection<TaskViewModel> AllTasks { get; }
-    public ReadOnlyObservableCollection<TaskGrouping> GroupedTasks { get; }
+    public ReadOnlyObservableCollection<TaskGroupPageGrouping> GroupedTasks { get; }
 
-    private readonly TaskListPersistenceManager _persistenceManager;
+    private readonly TaskGroupPagePersistenceManager _persistenceManager;
 
     private readonly ObservableCollection<TaskViewModel> _allTasks;
-    private readonly ObservableCollection<TaskGrouping> _groupedTasks;
+    private readonly ObservableCollection<TaskGroupPageGrouping> _groupedTasks;
 
-    public TaskListViewModel(TaskGroup group, IEnumerable<Task> tasks, TaskListPersistenceManager persistenceManager)
+    public TaskGroupPageViewModel(TaskGroup group, IEnumerable<Task> tasks, TaskGroupPagePersistenceManager persistenceManager)
     {
         Group = new TaskGroupViewModel(group);
         _persistenceManager = persistenceManager;
@@ -37,8 +37,8 @@ public class TaskListViewModel
 
         _allTasks.CollectionChanged += TaskCollectionChanged;
 
-        _groupedTasks = new ObservableCollection<TaskGrouping>();
-        GroupedTasks = new ReadOnlyObservableCollection<TaskGrouping>(_groupedTasks);
+        _groupedTasks = new ObservableCollection<TaskGroupPageGrouping>();
+        GroupedTasks = new ReadOnlyObservableCollection<TaskGroupPageGrouping>(_groupedTasks);
         RegroupTasks();
     }
 
@@ -75,8 +75,8 @@ public class TaskListViewModel
     {
         _groupedTasks.Clear();
 
-        _groupedTasks.Add(new TaskGrouping(false, AllTasks.Where(task => !task.Done)));
-        _groupedTasks.Add(new TaskGrouping(true, AllTasks.Where(task => task.Done)));
+        _groupedTasks.Add(new TaskGroupPageGrouping(false, AllTasks.Where(task => !task.Done)));
+        _groupedTasks.Add(new TaskGroupPageGrouping(true, AllTasks.Where(task => task.Done)));
     }
 
     public async System.Threading.Tasks.Task AddTask(TaskViewModel task)
@@ -92,11 +92,11 @@ public class TaskListViewModel
     }
 }
 
-public class TaskGrouping : List<TaskViewModel>
+public class TaskGroupPageGrouping : List<TaskViewModel>
 {
     public bool Done { get; }
 
-    public TaskGrouping(bool done, IEnumerable<TaskViewModel> items)
+    public TaskGroupPageGrouping(bool done, IEnumerable<TaskViewModel> items)
         : base(items)
     {
         Done = done;
