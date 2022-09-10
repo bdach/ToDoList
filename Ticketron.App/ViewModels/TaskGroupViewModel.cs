@@ -5,7 +5,12 @@ namespace Ticketron.App.ViewModels;
 
 public class TaskGroupViewModel : ObservableObject
 {
-    public TaskGroup Model { get; }
+    public TaskGroup Model { get; set; }
+
+    public TaskGroupViewModel()
+        : this(new TaskGroup())
+    {
+    }
 
     public TaskGroupViewModel(TaskGroup group)
     {

@@ -6,7 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:viewModels="using:Ticketron.App.ViewModels"
-    xmlns:controls="using:Ticketron.App.Controls"
+    xmlns:controls="using:Ticketron.App.Views.Settings.Controls"
     mc:Ignorable="d">
 
     <StackPanel Spacing="18">
@@ -26,27 +26,17 @@
             ItemsSource="{x:Bind TaskGroups}">
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:TaskGroupViewModel">
-                    <Grid
-                        Margin="15,0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-
-                        <controls:EmojiPickerControl
-                            Margin="0,0,15,0"
-                            Emoji="{x:Bind Icon, Mode=TwoWay}" />
-
-                        <TextBox
-                            Grid.Column="1"
-                            VerticalAlignment="Center"
-                            Text="{x:Bind Name, Mode=TwoWay}" />
-                    </Grid>
+                    <controls:TaskGroupEditControl
+                        Margin="15,0"
+                        ViewModel="{x:Bind}"
+                        Mode="Edit" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
+
+        <controls:TaskGroupEditControl
+            Mode="Add"
+            Margin="32,0"
+            TaskGroupEditCompleted="TaskGroupCreated" />
     </StackPanel>
 </UserControl>
