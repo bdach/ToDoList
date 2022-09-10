@@ -25,7 +25,10 @@
         </XamlUICommand>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid
+        Background="Transparent"
+        PointerEntered="OnPointerEntered"
+        PointerExited="OnPointerExited">
         <Grid x:Name="ViewControl">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="50" />
@@ -49,6 +52,8 @@
                 VerticalAlignment="Center" />
 
             <CommandBar
+                x:Name="ActionCommandBar"
+                Opacity="0"
                 Grid.Column="2"
                 DefaultLabelPosition="Right">
                 <AppBarButton Command="{StaticResource EditUICommand}" />

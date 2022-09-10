@@ -24,7 +24,6 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:TaskGroupViewModel">
                     <controls:TaskGroupListItem
-                        Margin="15,0"
                         ViewModel="{x:Bind}"
                         TaskGroupDeleted="TaskGroupDeleteRequested" />
                 </DataTemplate>
@@ -33,7 +32,6 @@
 
         <controls:TaskGroupEditControl
             Mode="Add"
-            Margin="32,0"
             TaskGroupEditCompleted="TaskGroupCreateRequested" />
     </StackPanel>
 </UserControl>

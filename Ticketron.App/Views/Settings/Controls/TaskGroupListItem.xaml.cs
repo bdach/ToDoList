@@ -65,5 +65,15 @@ namespace Ticketron.App.Views.Settings.Controls
         {
             TaskGroupDeleted?.Invoke(this, new TaskGroupDeletedEventArgs(ViewModel.Model));
         }
+
+        private void OnPointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            ActionCommandBar.Opacity = 1;
+        }
+
+        private void OnPointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            ActionCommandBar.Opacity = 0;
+        }
     }
 }
