@@ -1,5 +1,5 @@
 ﻿<Page
-    x:Class="Ticketron.App.Views.Tasks.TasksPage"
+    x:Class="Ticketron.App.Views.Tasks.TaskGroupPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:Ticketron.App.Views.Tasks"
@@ -22,8 +22,7 @@
         OpenPaneLength="400">
         <SplitView.Pane>
             <controls:TaskEditControl
-                ViewModel="{x:Bind (viewModels:TaskViewModel)TaskListView.SelectedItem, Mode=OneWay}"
-                x:Name="TaskEditControl" />
+                ViewModel="{x:Bind (viewModels:TaskViewModel)TaskListView.SelectedItem, Mode=OneWay}" />
         </SplitView.Pane>
         <Grid
             Padding="30"

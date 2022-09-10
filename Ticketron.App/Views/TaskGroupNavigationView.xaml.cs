@@ -28,7 +28,7 @@ namespace Ticketron.App.Views
 
             var selectedTaskGroup = (TaskGroupViewModel)sender.SelectedItem;
             sender.Header = $"{selectedTaskGroup.Icon} {selectedTaskGroup.Name}";
-            ContentFrame.Navigate(typeof(TasksPage), selectedTaskGroup.Model.Id);
+            ContentFrame.Navigate(typeof(TaskGroupPage), selectedTaskGroup.Model.Id);
         }
     }
 }
