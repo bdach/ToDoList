@@ -16,9 +16,6 @@
             FontWeight="Medium"/>
 
         <ListView
-            CanDragItems="True"
-            CanReorderItems="True"
-            AllowDrop="True"
             SelectionMode="Single"
             BorderThickness="1"
             BorderBrush="{ThemeResource SystemControlForegroundListLowBrush}"
