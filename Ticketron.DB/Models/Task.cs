@@ -5,7 +5,7 @@
 /// </summary>
 public class Task
 {
-    public long Id { get; init; }
+    public long Id { get; internal set; }
 
     /// <summary>
     /// The title of the task.

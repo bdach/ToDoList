@@ -22,6 +22,8 @@ public class TaskListPersistenceManager
         var taskGroup = await _taskGroupRepository.GetAsync(taskGroupId);
         var tasks = await _taskRepository.GetForGroupAsync(taskGroup);
 
-        return new TaskListViewModel(taskGroup, tasks);
+        return new TaskListViewModel(taskGroup, tasks, this);
     }
+
+    public Task UpdateAsync(TaskViewModel taskViewModel) => _taskRepository.UpdateAsync(taskViewModel.Model);
 }

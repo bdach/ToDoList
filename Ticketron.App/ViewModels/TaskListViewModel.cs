@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
+using Ticketron.App.Persistence;
 using Ticketron.DB.Models;
 
 namespace Ticketron.App.ViewModels;
@@ -14,9 +15,12 @@ public class TaskListViewModel
     public ObservableCollection<TaskViewModel> AllTasks { get; }
     public ObservableCollection<TaskGrouping> GroupedTasks { get; }
 
-    public TaskListViewModel(TaskGroup group, IEnumerable<Task> tasks)
+    private readonly TaskListPersistenceManager _persistenceManager;
+
+    public TaskListViewModel(TaskGroup group, IEnumerable<Task> tasks, TaskListPersistenceManager persistenceManager)
     {
         Group = new TaskGroupViewModel(group);
+        _persistenceManager = persistenceManager;
 
         AllTasks = new ObservableCollection<TaskViewModel>();
         foreach (var task in tasks)
@@ -32,8 +36,13 @@ public class TaskListViewModel
         RegroupTasks();
     }
 
-    private void TaskPropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private async void TaskPropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
+        if (sender is not TaskViewModel taskViewModel)
+            return;
+
+        await _persistenceManager.UpdateAsync(taskViewModel);
+
         if (e.PropertyName == nameof(Task.Done))
             RegroupTasks();
     }

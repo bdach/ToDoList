@@ -5,22 +5,22 @@ namespace Ticketron.App.ViewModels;
 
 public class TaskViewModel : ObservableObject
 {
-    private readonly Task _task;
+    public Task Model { get; }
 
     public TaskViewModel(Task task)
     {
-        _task = task;
+        Model = task;
     }
 
     public string Title
     {
-        get => _task.Title;
-        set => SetProperty(_task.Title, value, _task, (task, title) => task.Title = title);
+        get => Model.Title;
+        set => SetProperty(Model.Title, value, Model, (task, title) => task.Title = title);
     }
 
     public bool Done
     {
-        get => _task.Done;
-        set => SetProperty(_task.Done, value, _task, (task, done) => task.Done = done);
+        get => Model.Done;
+        set => SetProperty(Model.Done, value, Model, (task, done) => task.Done = done);
     }
 }

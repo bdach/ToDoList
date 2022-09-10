@@ -34,11 +34,12 @@ public class TaskRepository : ITaskRepository
     {
         using var connection = _dbConnectionFactory.Create();
 
-        await connection.ExecuteAsync(
+        task.Id = await connection.QuerySingleAsync<long>(
             @"INSERT INTO Tasks
-                    (Id, Title, Done)
+                    (Title, Done)
                 VALUES
-                    (@id, @title, @done)", task);
+                    (@Title, @Done)
+                RETURNING Id", task);
     }
 
     public async Task UpdateAsync(Models.Task task)
@@ -47,15 +48,15 @@ public class TaskRepository : ITaskRepository
 
         await connection.ExecuteAsync(
             @"UPDATE Tasks
-            SET Title = @title,
-                Done = @done
-            WHERE Id = @id", task);
+            SET Title = @Title,
+                Done = @Done
+            WHERE Id = @Id", task);
     }
 
     public async Task DeleteAsync(Models.Task task)
     {
         using var connection = _dbConnectionFactory.Create();
 
-        await connection.ExecuteAsync(@"DELETE FROM Tasks WHERE Id = @id", task);
+        await connection.ExecuteAsync(@"DELETE FROM Tasks WHERE Id = @Id", task);
     }
 }
