@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:utilities="using:Ticketron.App.Utilities"
     mc:Ignorable="d">
     <UserControl.Resources>
         <XamlUICommand
@@ -14,12 +15,16 @@
                 <SymbolIconSource Symbol="Delete" />
             </XamlUICommand.IconSource>
         </XamlUICommand>
+
+        <utilities:DateToHumanisedStringConverter
+            x:Name="DateToHumanisedStringConverter" />
     </UserControl.Resources>
 
     <Grid
         Background="Transparent"
         PointerEntered="OnPointerEntered"
-        PointerExited="OnPointerExited">
+        PointerExited="OnPointerExited"
+        ColumnSpacing="5">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
@@ -31,15 +36,27 @@
             MinWidth="0"
             VerticalAlignment="Center" />
 
-        <TextBlock
+        <StackPanel
             Grid.Column="1"
-            Text="{x:Bind ViewModel.Title, Mode=OneWay}"
-            VerticalAlignment="Center" />
+            VerticalAlignment="Center">
+
+            <TextBlock
+                Text="{x:Bind ViewModel.Title, Mode=OneWay}"
+                VerticalAlignment="Center" />
+
+            <TextBlock
+                Text="{x:Bind ViewModel.ScheduledFor, Mode=OneWay, Converter={StaticResource DateToHumanisedStringConverter}}"
+                Visibility="{x:Bind DateTimeVisibility(ViewModel.ScheduledFor), Mode=OneWay, FallbackValue=Collapsed}"
+                FontSize="12"
+                VerticalAlignment="Center" />
+
+        </StackPanel>
 
         <CommandBar
             x:Name="ActionCommandBar"
             Opacity="0"
             Grid.Column="2"
+            VerticalAlignment="Center"
             DefaultLabelPosition="Right">
 
             <CommandBar.SecondaryCommands>

@@ -56,5 +56,7 @@ namespace Ticketron.App.Views.Tasks.Controls
 
         private void TaskDeleteRequested(XamlUICommand _, ExecuteRequestedEventArgs __)
             => TaskDeleted?.Invoke(this, new TaskDeletedEventArgs(ViewModel));
+
+        private Visibility DateTimeVisibility(DateTime? dateTime) => dateTime.HasValue ? Visibility.Visible : Visibility.Collapsed;
     }
 }
