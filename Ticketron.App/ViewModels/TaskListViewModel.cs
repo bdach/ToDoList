@@ -84,6 +84,12 @@ public class TaskListViewModel
         await _persistenceManager.CreateAsync(task);
         _allTasks.Add(task);
     }
+
+    public async System.Threading.Tasks.Task DeleteTask(TaskViewModel task)
+    {
+        await _persistenceManager.DeleteAsync(task);
+        _allTasks.Remove(task);
+    }
 }
 
 public class TaskGrouping : List<TaskViewModel>

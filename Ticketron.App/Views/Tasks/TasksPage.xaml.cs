@@ -8,6 +8,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Navigation;
 using Ticketron.App.Persistence;
 using Ticketron.App.ViewModels;
+using Ticketron.App.Views.Tasks.Controls;
 
 namespace Ticketron.App.Views.Tasks
 {
@@ -52,5 +53,8 @@ namespace Ticketron.App.Views.Tasks
 
             TaskEntryTextBox.Text = string.Empty;
         }
+
+        private async void TaskDeleteRequested(object sender, TaskListItemControl.TaskDeletedEventArgs e)
+            => await ViewModel.DeleteTask(e.DeletedTask);
     }
 }

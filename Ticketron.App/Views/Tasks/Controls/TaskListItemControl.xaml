@@ -5,11 +5,25 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <XamlUICommand
+            x:Name="DeleteUICommand"
+            Label="Delete"
+            ExecuteRequested="TaskDeleteRequested">
+            <XamlUICommand.IconSource>
+                <SymbolIconSource Symbol="Delete" />
+            </XamlUICommand.IconSource>
+        </XamlUICommand>
+    </UserControl.Resources>
 
-    <Grid>
+    <Grid
+        Background="Transparent"
+        PointerEntered="OnPointerEntered"
+        PointerExited="OnPointerExited">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto" />
             <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
         <CheckBox
@@ -21,5 +35,15 @@
             Grid.Column="1"
             Text="{x:Bind ViewModel.Title, Mode=OneWay}"
             VerticalAlignment="Center" />
+
+        <CommandBar
+            x:Name="ActionCommandBar"
+            Opacity="0"
+            Grid.Column="2"
+            DefaultLabelPosition="Right">
+            <CommandBar.SecondaryCommands>
+                <AppBarButton Command="{StaticResource DeleteUICommand}" />
+            </CommandBar.SecondaryCommands>
+        </CommandBar>
     </Grid>
 </UserControl>

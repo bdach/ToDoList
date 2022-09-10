@@ -23,8 +23,7 @@
         </Grid.RowDefinitions>
 
         <ListView
-            ItemsSource="{x:Bind TasksCollectionViewSource.View, Mode=OneWay}"
-            SelectionMode="Single">
+            ItemsSource="{x:Bind TasksCollectionViewSource.View, Mode=OneWay}">
             <ListView.ItemsPanel>
                 <ItemsPanelTemplate>
                     <ItemsStackPanel AreStickyGroupHeadersEnabled="True" />
@@ -44,7 +43,8 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:TaskViewModel">
                     <controls:TaskListItemControl
-                        ViewModel="{x:Bind}" />
+                        ViewModel="{x:Bind}"
+                        TaskDeleted="TaskDeleteRequested" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
