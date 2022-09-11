@@ -5,6 +5,7 @@ using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
 using Ticketron.App.ViewModels;
+using Ticketron.App.Views.DailyLog;
 using Ticketron.App.Views.Settings;
 using Ticketron.App.Views.Tasks;
 
@@ -19,6 +20,7 @@ namespace Ticketron.App.Views
             this.InitializeComponent();
 
             NavigationItems.Add(new TopLevelNavigationItem("Today", Symbol.GoToToday, typeof(TodayPage)));
+            NavigationItems.Add(new TopLevelNavigationItem("Daily log", Symbol.Clock, typeof(DailyLogPage)));
             NavigationItems.Add(new Separator());
             NavigationItems.Add(new Header { Name = "Lists" });
 

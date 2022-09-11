@@ -18,6 +18,7 @@
     <None Remove="Controls\TaskGroupEditControl.xaml" />
     <None Remove="Resources\emoji-test.txt" />
     <None Remove="Views\AppNavigationView.xaml" />
+    <None Remove="Views\DailyLog\DailyLogPage.xaml" />
     <None Remove="Views\Settings\Controls\TaskGroupListItem.xaml" />
     <None Remove="Views\Settings\SettingsPage.xaml" />
     <None Remove="Views\Settings\TaskGroupsSection.xaml" />
@@ -125,6 +126,11 @@
   </ItemGroup>
   <ItemGroup>
     <Page Update="Views\Settings\Controls\TaskGroupEditControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\DailyLog\DailyLogPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

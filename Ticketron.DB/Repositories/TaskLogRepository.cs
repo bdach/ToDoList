@@ -1,4 +1,6 @@
 ﻿using Dapper;
+using Ticketron.DB.Models;
+using Task = System.Threading.Tasks.Task;
 
 namespace Ticketron.DB.Repositories;
 
@@ -21,6 +23,72 @@ public class TaskLogRepository : ITaskLogRepository
                 WHERE TaskId = @Id
                 ORDER BY Start ASC",
             task)).ToList();
+    }
+
+    public async Task<Models.DailyLog> GetDailyLogAsync(DateTime date)
+    {
+        using var connection = _connectionFactory.Create();
+
+        var logEntries = (await connection.QueryAsync<FlattenedLogEntry>(
+            @"SELECT
+	                logEntries.Id AS LogEntryId,
+	                logEntries.Start,
+	                logEntries.End,
+	                logEntries.Notes,
+	                tasks.Id AS TaskId,
+	                tasks.Title AS TaskTitle,
+	                tasks.ScheduledFor AS TaskScheduledFor,
+	                tasks.Done AS TaskDone,
+	                taskGroups.Id AS TaskGroupId,
+	                taskGroups.Icon AS TaskGroupIcon,
+	                taskGroups.Name AS TaskGroupName
+                FROM TaskLogEntries logEntries
+                JOIN Tasks tasks
+	                ON logEntries.TaskId = tasks.Id
+                JOIN TaskGroups taskGroups
+	                ON tasks.GroupId = taskGroups.Id
+                WHERE DATE(logEntries.Start) = DATE(@Date)
+                ORDER BY logEntries.Start ASC",
+            new { Date = date })).ToList();
+
+        var result = new Models.DailyLog();
+
+        foreach (var grouping in logEntries.GroupBy(e => e.TaskId))
+        {
+            var representative = grouping.First();
+
+            var taskGroup = new Models.TaskGroup
+            {
+                Id = representative.TaskGroupId,
+                Icon = representative.TaskGroupIcon,
+                Name = representative.TaskGroupName
+            };
+
+            var task = new Models.Task
+            {
+                Id = representative.TaskId,
+                GroupId = representative.TaskGroupId,
+                Title = representative.TaskTitle,
+                ScheduledFor = representative.TaskScheduledFor,
+                Done = representative.TaskDone
+            };
+
+            var taskProgress = new DailyTaskProgress(taskGroup, task)
+            {
+                Entries = grouping.Select(entry => new TaskLogEntry(task)
+                {
+                    Id = entry.LogEntryId,
+                    Start = entry.Start,
+                    End = entry.End,
+                    Notes = entry.Notes
+                })
+                .ToList()
+            };
+
+            result.TaskProgress.Add(taskProgress);
+        }
+
+        return result;
     }
 
     public async Task CreateAsync(Models.TaskLogEntry logEntry)
