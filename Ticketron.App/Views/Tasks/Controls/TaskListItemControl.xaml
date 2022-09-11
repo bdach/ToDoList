@@ -5,8 +5,28 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:utilities="using:Ticketron.App.Utilities"
-    mc:Ignorable="d">
+    mc:Ignorable="d"
+    Loaded="ControlLoaded"
+    Unloaded="ControlUnloaded">
     <UserControl.Resources>
+        <XamlUICommand
+            x:Name="StartUICommand"
+            Label="Start"
+            ExecuteRequested="TaskStartRequested">
+            <XamlUICommand.IconSource>
+                <SymbolIconSource Symbol="Play" />
+            </XamlUICommand.IconSource>
+        </XamlUICommand>
+
+        <XamlUICommand
+            x:Name="StopUICommand"
+            Label="Stop"
+            ExecuteRequested="TaskStopRequested">
+            <XamlUICommand.IconSource>
+                <SymbolIconSource Symbol="Stop" />
+            </XamlUICommand.IconSource>
+        </XamlUICommand>
+
         <XamlUICommand
             x:Name="DeleteUICommand"
             Label="Delete"
@@ -54,6 +74,13 @@
             Grid.Column="2"
             VerticalAlignment="Center"
             DefaultLabelPosition="Right">
+
+            <AppBarButton
+                Command="{StaticResource StartUICommand}"
+                Visibility="{x:Bind CanStart, Mode=OneWay}" />
+            <AppBarButton
+                Command="{StaticResource StopUICommand}"
+                Visibility="{x:Bind CanStop, Mode=OneWay}" />
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton Command="{StaticResource DeleteUICommand}" />

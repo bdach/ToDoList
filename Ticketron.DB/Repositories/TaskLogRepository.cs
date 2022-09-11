@@ -2,7 +2,7 @@
 
 namespace Ticketron.DB.Repositories;
 
-public class TaskLogRepository
+public class TaskLogRepository : ITaskLogRepository
 {
     private readonly IDbConnectionFactory _connectionFactory;
 

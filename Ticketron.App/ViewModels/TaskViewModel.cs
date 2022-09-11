@@ -15,6 +15,9 @@ public class TaskViewModel : ObservableObject
 
     public TaskViewModel(Task task, TaskGroupViewModel taskGroup)
     {
+        if (task.GroupId != taskGroup.Model.Id)
+            throw new ArgumentException("Detected ID mismatch when associating model with viewmodel");
+
         Model = task;
         _taskGroup = taskGroup;
     }

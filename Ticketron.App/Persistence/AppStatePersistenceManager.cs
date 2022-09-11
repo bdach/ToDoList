@@ -1,6 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
 using Ticketron.App.ViewModels;
@@ -11,11 +9,14 @@ namespace Ticketron.App.Persistence;
 public class AppStatePersistenceManager
 {
     private readonly ITaskGroupRepository _taskGroupRepository;
+    private readonly ITaskLogRepository _taskLogRepository;
 
     public AppStatePersistenceManager(
-        ITaskGroupRepository taskGroupRepository)
+        ITaskGroupRepository taskGroupRepository,
+        ITaskLogRepository taskLogRepository)
     {
         _taskGroupRepository = taskGroupRepository;
+        _taskLogRepository = taskLogRepository;
     }
 
     public async Task<AppViewModel> LoadAppState()
@@ -32,4 +33,10 @@ public class AppStatePersistenceManager
 
     public Task DeleteAsync(IEnumerable<TaskGroupViewModel> taskGroups) =>
         _taskGroupRepository.DeleteAsync(taskGroups.Select(group => group.Model).ToArray());
+
+    public Task CreateAsync(TaskLogEntryViewModel logEntry)
+        => _taskLogRepository.CreateAsync(logEntry.Model);
+
+    public Task UpdateAsync(TaskLogEntryViewModel logEntry)
+        => _taskLogRepository.UpdateAsync(logEntry.Model);
 }
