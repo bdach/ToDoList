@@ -163,7 +163,7 @@ namespace Ticketron.App.Views.Tasks.Controls
                     textFragments.Add($"{ViewModel?.TaskGroup.Icon} {ViewModel?.TaskGroup.Name}");
 
                 if (ViewModel?.ScheduledFor != null)
-                    textFragments.Add(ViewModel.ScheduledFor.Value.Date == DateTime.Today ? "today" : ViewModel.ScheduledFor.Value.Humanize(dateToCompareAgainst: DateTime.UtcNow.Date).Titleize());
+                    textFragments.Add($"Scheduled for {(ViewModel.ScheduledFor.Value.Date == DateTime.Today ? "today" : ViewModel.ScheduledFor.Value.Humanize(dateToCompareAgainst: DateTime.UtcNow.Date))}");
 
                 if (CanStop)
                     textFragments.Add("Currently in progress");
