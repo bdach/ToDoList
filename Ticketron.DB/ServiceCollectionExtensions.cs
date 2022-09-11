@@ -25,6 +25,7 @@ public static class ServiceCollectionExtensions
 
         serviceCollection.AddSingleton<ITaskRepository, TaskRepository>();
         serviceCollection.AddSingleton<ITaskGroupRepository, TaskGroupRepository>();
+        serviceCollection.AddSingleton<ITasksForTodayRepository, TasksForTodayRepository>();
 
         return serviceCollection;
     }

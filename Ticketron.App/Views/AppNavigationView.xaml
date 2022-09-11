@@ -12,22 +12,10 @@
     </UserControl.Resources>
 
     <NavigationView
+        x:Name="NavigationView"
         MenuItemTemplateSelector="{StaticResource ItemTemplateSelector}"
         MenuItemsSource="{x:Bind NavigationItems, Mode=OneWay}"
         SelectionChanged="OnSelectionChanged">
-        <!--<NavigationView.MenuItemTemplate>
-            <DataTemplate x:DataType="viewModels:TaskGroupViewModel">
-                <NavigationViewItem
-                    Content="{x:Bind Name, Mode=OneWay}">
-                    <NavigationViewItem.Icon>
-                        <FontIcon Glyph="{x:Bind Icon, Mode=OneWay}" />
-                    </NavigationViewItem.Icon>
-                </NavigationViewItem>
-            </DataTemplate>
-        </NavigationView.MenuItemTemplate>
-        <NavigationView.FooterMenuItems>
-            <NavigationViewItem Content="Today" Icon="GoToToday"></NavigationViewItem>
-        </NavigationView.FooterMenuItems>-->
         <Frame x:Name="ContentFrame" />
     </NavigationView>
 </UserControl>

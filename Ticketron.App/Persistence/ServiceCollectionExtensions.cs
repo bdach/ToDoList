@@ -8,6 +8,7 @@ public static class ServiceCollectionExtensions
     {
         serviceCollection.AddSingleton<AppStatePersistenceManager>();
         serviceCollection.AddSingleton<TaskGroupPagePersistenceManager>();
+        serviceCollection.AddSingleton<TasksForTodayPersistenceManager>();
 
         return serviceCollection;
     }

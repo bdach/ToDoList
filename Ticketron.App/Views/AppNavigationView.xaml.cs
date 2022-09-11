@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.ObjectModel;
+using System.Linq;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Microsoft.UI.Xaml.Markup;
@@ -11,7 +12,6 @@ namespace Ticketron.App.Views
 {
     public sealed partial class AppNavigationView : UserControl
     {
-        //public ObservableCollection<TaskGroupViewModel> TaskGroups { get; }
         public ObservableCollection<AppNavigationItem> NavigationItems { get; } = new ObservableCollection<AppNavigationItem>();
 
         public AppNavigationView()
@@ -23,7 +23,10 @@ namespace Ticketron.App.Views
             NavigationItems.Add(new Header { Name = "Lists" });
 
             RecreateNavigationItems();
+
             App.Current.State.TaskGroups.CollectionChanged += (_, _) => RecreateNavigationItems();
+
+            NavigationView.SelectedItem = NavigationItems.First();
         }
 
         private void OnSelectionChanged(NavigationView sender, NavigationViewSelectionChangedEventArgs args)

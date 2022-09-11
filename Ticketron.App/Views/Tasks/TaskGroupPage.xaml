@@ -25,7 +25,7 @@
                 ViewModel="{x:Bind (viewModels:TaskViewModel)TaskListView.SelectedItem, Mode=OneWay}" />
         </SplitView.Pane>
         <Grid
-            Padding="30"
+            Padding="45,30"
             RowSpacing="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
