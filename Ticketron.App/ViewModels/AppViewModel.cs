@@ -91,7 +91,7 @@ public class AppViewModel : ObservableObject
         CurrentLogEntry = logEntry;
     }
 
-    public async System.Threading.Tasks.Task EndWorkingOnCurrentTaskAsync()
+    public async System.Threading.Tasks.Task EndWorkingOnCurrentTaskAsync(string logContent)
     {
         if (CurrentLogEntry == null)
             return;
@@ -99,6 +99,8 @@ public class AppViewModel : ObservableObject
         var logEntry = CurrentLogEntry;
 
         logEntry.End = DateTime.Now;
+        logEntry.Notes = logContent;
+
         await _persistenceManager.UpdateAsync(logEntry);
 
         CurrentLogEntry = null;

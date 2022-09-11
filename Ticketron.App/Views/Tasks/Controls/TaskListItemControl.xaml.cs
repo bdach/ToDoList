@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using Windows.System;
 using Humanizer;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Controls.Primitives;
 using Microsoft.UI.Xaml.Input;
 using Ticketron.App.ViewModels;
 
@@ -208,17 +210,29 @@ namespace Ticketron.App.Views.Tasks.Controls
             if (ViewModel == null) return;
             await App.Current.State.StartWorkingOnAsync(ViewModel);
         }
+        
+        #endregion
 
-        private async void TaskStopRequested(XamlUICommand _, ExecuteRequestedEventArgs __)
+        private async void StopFlyoutKeyDown(object sender, KeyRoutedEventArgs e)
         {
+            if (e.Key != VirtualKey.Enter)
+                return;
+
+            var textBox = (TextBox)sender;
+
             if (ViewModel == null) return;
             if (ViewModel.Model.Id != App.Current.State.CurrentLogEntry?.Task.Model.Id)
                 throw new InvalidOperationException(
                     "Catastrophic failure: attempted to stop task which is not in progress.");
 
-            await App.Current.State.EndWorkingOnCurrentTaskAsync();
+            await App.Current.State.EndWorkingOnCurrentTaskAsync(textBox.Text);
+
+            StopTaskFlyout.Hide();
         }
 
-        #endregion
+        private void TaskStopRequested(XamlUICommand sender, ExecuteRequestedEventArgs args)
+        {
+            StopTaskFlyout.ShowAt(this, new FlyoutShowOptions { Placement = FlyoutPlacementMode.BottomEdgeAlignedRight });
+        }
     }
 }

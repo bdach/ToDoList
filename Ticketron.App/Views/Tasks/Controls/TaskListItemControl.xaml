@@ -35,6 +35,17 @@
                 <SymbolIconSource Symbol="Delete" />
             </XamlUICommand.IconSource>
         </XamlUICommand>
+
+        <Flyout
+            x:Name="StopTaskFlyout">
+            <StackPanel
+                Width="250">
+                <TextBox
+                    PlaceholderText="Optionally describe what was done. Enter to confirm."
+                    TextWrapping="Wrap"
+                    KeyDown="StopFlyoutKeyDown" />
+            </StackPanel>
+        </Flyout>
     </UserControl.Resources>
 
     <Grid
@@ -80,7 +91,8 @@
                 Visibility="{x:Bind CanStart, Mode=OneWay}" />
             <AppBarButton
                 Command="{StaticResource StopUICommand}"
-                Visibility="{x:Bind CanStop, Mode=OneWay}" />
+                Visibility="{x:Bind CanStop, Mode=OneWay}">
+            </AppBarButton>
 
             <CommandBar.SecondaryCommands>
                 <AppBarButton Command="{StaticResource DeleteUICommand}" />

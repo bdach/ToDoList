@@ -18,7 +18,8 @@ public class TaskLogRepository : ITaskLogRepository
         return (await connection.QueryAsync<Models.TaskLogEntry>(
             @"SELECT *
                 FROM TaskLogEntries
-                WHERE TaskId = @Id",
+                WHERE TaskId = @Id
+                ORDER BY Start ASC",
             task)).ToList();
     }
 
