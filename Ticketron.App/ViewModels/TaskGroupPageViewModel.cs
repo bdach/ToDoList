@@ -30,7 +30,7 @@ public class TaskGroupPageViewModel
 
         foreach (var task in tasks)
         {
-            var viewModel = new TaskViewModel(task);
+            var viewModel = new TaskViewModel(task, Group);
             viewModel.PropertyChanged += TaskPropertyChanged;
             _allTasks.Add(viewModel);
         }

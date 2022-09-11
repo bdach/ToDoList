@@ -9,21 +9,25 @@ namespace Ticketron.App.Persistence;
 
 public class TasksForTodayPersistenceManager
 {
+    private readonly ITaskGroupRepository _taskGroupRepository;
     private readonly ITasksForTodayRepository _tasksForTodayRepository;
     private readonly ITaskRepository _taskRepository;
 
     public TasksForTodayPersistenceManager(
+        ITaskGroupRepository taskGroupRepository,
         ITasksForTodayRepository tasksForTodayRepository,
         ITaskRepository taskRepository)
     {
+        _taskGroupRepository = taskGroupRepository;
         _tasksForTodayRepository = tasksForTodayRepository;
         _taskRepository = taskRepository;
     }
 
     public async Task<TasksForTodayViewModel> LoadState()
     {
+        var taskGroups = await _taskGroupRepository.GetAllAsync();
         var tasksForToday = await GetTasksForTodayAsync();
-        return new TasksForTodayViewModel(tasksForToday, this);
+        return new TasksForTodayViewModel(taskGroups, tasksForToday, this);
     }
 
     public Task<TasksForToday> GetTasksForTodayAsync() =>

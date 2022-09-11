@@ -8,7 +8,7 @@
     xmlns:utilities="using:Ticketron.App.Utilities"
     mc:Ignorable="d">
     <UserControl.Resources>
-        <utilities:DateTimeToDateTimeOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
+        <utilities:DateToDateOffsetConverter x:Key="DateTimeToDateTimeOffsetConverter" />
     </UserControl.Resources>
 
     <Grid

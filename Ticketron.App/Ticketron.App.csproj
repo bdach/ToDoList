@@ -92,9 +92,6 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Utilities\" />
-  </ItemGroup>
-  <ItemGroup>
     <Page Update="Views\Tasks\Controls\TaskEditControl.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

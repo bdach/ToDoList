@@ -9,19 +9,23 @@ namespace Ticketron.App.ViewModels;
 
 public class TasksForTodayViewModel
 {
-    public ReadOnlyObservableCollection<TodayPageTaskGrouping> GroupedTasks { get; }
+    public ReadOnlyObservableCollection<TodayPageTaskGrouping> TasksForToday { get; }
 
     private readonly TasksForTodayPersistenceManager _persistenceManager;
 
-    private readonly ObservableCollection<TodayPageTaskGrouping> _groupedTasks;
-    private IEnumerable<TaskViewModel> AllTasks => _groupedTasks.SelectMany(group => group);
+    private readonly IDictionary<int, TaskGroupViewModel> _taskGroups;
 
-    public TasksForTodayViewModel(TasksForToday tasksForToday, TasksForTodayPersistenceManager persistenceManager)
+    private readonly ObservableCollection<TodayPageTaskGrouping> _tasksForToday;
+    private IEnumerable<TaskViewModel> AllTasks => _tasksForToday.SelectMany(group => group);
+
+    public TasksForTodayViewModel(ICollection<TaskGroup> taskGroups, TasksForToday tasksForToday, TasksForTodayPersistenceManager persistenceManager)
     {
         _persistenceManager = persistenceManager;
 
-        _groupedTasks = new ObservableCollection<TodayPageTaskGrouping>();
-        GroupedTasks = new ReadOnlyObservableCollection<TodayPageTaskGrouping>(_groupedTasks);
+        _taskGroups = taskGroups.ToDictionary(group => group.Id, group => new TaskGroupViewModel(group));
+
+        _tasksForToday = new ObservableCollection<TodayPageTaskGrouping>();
+        TasksForToday = new ReadOnlyObservableCollection<TodayPageTaskGrouping>(_tasksForToday);
 
         RegroupTasks(tasksForToday);
     }
@@ -31,20 +35,23 @@ public class TasksForTodayViewModel
         foreach (var task in AllTasks)
             task.PropertyChanged -= TaskPropertyChanged;
 
-        _groupedTasks.Clear();
+        _tasksForToday.Clear();
 
-        _groupedTasks.Add(
+        // below I am assuming that the task groups are in their corresponding dictionaries.
+        // this is intentional. if they ever aren't, I'm in big trouble and need to fix my app.
+
+        _tasksForToday.Add(
             new TodayPageTaskGrouping(
                 "Overdue",
-                tasksForToday.OverdueTasks.Select(task => new TaskViewModel(task))));
-        _groupedTasks.Add(
+                tasksForToday.OverdueTasks.Select(task => new TaskViewModel(task, _taskGroups[task.GroupId]))));
+        _tasksForToday.Add(
             new TodayPageTaskGrouping(
                 "Scheduled for today",
-                tasksForToday.TasksScheduledForToday.Select(task => new TaskViewModel(task))));
-        _groupedTasks.Add(
+                tasksForToday.TasksScheduledForToday.Select(task => new TaskViewModel(task, _taskGroups[task.GroupId]))));
+        _tasksForToday.Add(
             new TodayPageTaskGrouping(
                 "Done today",
-                tasksForToday.TasksDoneToday.Select(task => new TaskViewModel(task))));
+                tasksForToday.TasksDoneToday.Select(task => new TaskViewModel(task, _taskGroups[task.GroupId]))));
 
         foreach (var task in AllTasks)
             task.PropertyChanged += TaskPropertyChanged;

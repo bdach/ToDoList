@@ -25,7 +25,7 @@ public class Task
     /// <summary>
     /// The ID of the <see cref="TaskGroup"/> that this task belongs to.
     /// </summary>
-    public int GroupId { get; internal set; }
+    public int GroupId { get; set; }
 
     internal Task()
     {

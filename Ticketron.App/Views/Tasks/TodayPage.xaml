@@ -11,7 +11,7 @@
     <Page.Resources>
         <CollectionViewSource
             x:Name="TasksForTodayCollectionViewSource"
-            Source="{x:Bind ViewModel.GroupedTasks, Mode=OneWay}"
+            Source="{x:Bind ViewModel.TasksForToday, Mode=OneWay}"
             IsSourceGrouped="True" />
     </Page.Resources>
 
@@ -45,7 +45,8 @@
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="viewModels:TaskViewModel">
                     <controls:TaskListItemControl
-                        ViewModel="{x:Bind}" />
+                        ViewModel="{x:Bind}"
+                        ShowTaskGroup="True" />
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

@@ -15,9 +15,6 @@
                 <SymbolIconSource Symbol="Delete" />
             </XamlUICommand.IconSource>
         </XamlUICommand>
-
-        <utilities:DateToHumanisedStringConverter
-            x:Name="DateToHumanisedStringConverter" />
     </UserControl.Resources>
 
     <Grid
@@ -32,7 +29,7 @@
         </Grid.ColumnDefinitions>
 
         <CheckBox
-            IsChecked="{x:Bind ViewModel.Done, Mode=TwoWay}"
+            IsChecked="{x:Bind ViewModel.Done, Mode=TwoWay, FallbackValue=False}"
             MinWidth="0"
             VerticalAlignment="Center" />
 
@@ -41,12 +38,11 @@
             VerticalAlignment="Center">
 
             <TextBlock
-                Text="{x:Bind ViewModel.Title, Mode=OneWay}"
+                Text="{x:Bind ViewModel.Title, Mode=OneWay, FallbackValue=''}"
                 VerticalAlignment="Center" />
 
             <TextBlock
-                Text="{x:Bind ViewModel.ScheduledFor, Mode=OneWay, Converter={StaticResource DateToHumanisedStringConverter}}"
-                Visibility="{x:Bind DateTimeVisibility(ViewModel.ScheduledFor), Mode=OneWay, FallbackValue=Collapsed}"
+                x:Name="DetailsTextBlock"
                 FontSize="12"
                 VerticalAlignment="Center" />
 
