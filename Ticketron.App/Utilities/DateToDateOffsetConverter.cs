@@ -23,7 +23,7 @@ public class DateToDateOffsetConverter : IValueConverter
             return null;
 
         if (value is DateTimeOffset sourceDateTimeOffset && (targetType == typeof(DateTime) || targetType == typeof(DateTime?)))
-            return sourceDateTimeOffset.UtcDateTime.Date;
+            return sourceDateTimeOffset.LocalDateTime.Date;
 
         throw new InvalidOperationException(
             $"{nameof(DateToDateOffsetConverter)} can only be used to convert between {nameof(DateTime)} and {nameof(DateTimeOffset)}");

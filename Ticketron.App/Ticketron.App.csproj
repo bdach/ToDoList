@@ -23,6 +23,7 @@
     <None Remove="Views\Settings\TaskGroupsSection.xaml" />
     <None Remove="Views\Tasks\Controls\TaskEditControl.xaml" />
     <None Remove="Views\Tasks\Controls\TaskListItemControl.xaml" />
+    <None Remove="Views\Tasks\Controls\TaskMasterDetailView.xaml" />
     <None Remove="Views\Tasks\TaskGroupPage.xaml" />
     <None Remove="Views\TitleBar.xaml" />
   </ItemGroup>
@@ -59,6 +60,11 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Ticketron.DB\Ticketron.DB.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Page Update="Views\Tasks\Controls\TaskMasterDetailView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Themes\Generic.xaml">

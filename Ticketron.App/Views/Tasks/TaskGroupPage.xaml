@@ -14,18 +14,9 @@
             IsSourceGrouped="True" />
     </Page.Resources>
 
-    <SplitView
-        x:Name="SplitView"
-        PaneBackground="{ThemeResource SystemControlBackgroundChromeMediumLowBrush}"
-        DisplayMode="Inline"
-        PanePlacement="Right"
-        OpenPaneLength="400">
-        <SplitView.Pane>
-            <controls:TaskEditControl
-                ViewModel="{x:Bind (viewModels:TaskViewModel)TaskListView.SelectedItem, Mode=OneWay}" />
-        </SplitView.Pane>
+    <controls:TaskMasterDetailView
+        SelectedTask="{x:Bind (viewModels:TaskViewModel)TaskListView.SelectedItem, Mode=OneWay}">
         <Grid
-            Padding="45,30"
             RowSpacing="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
@@ -34,8 +25,7 @@
 
             <ListView
                 x:Name="TaskListView"
-                ItemsSource="{x:Bind TasksCollectionViewSource.View, Mode=OneWay}"
-                SelectionChanged="SelectedTaskChanged">
+                ItemsSource="{x:Bind TasksCollectionViewSource.View, Mode=OneWay}">
                 <ListView.ItemsPanel>
                     <ItemsPanelTemplate>
                         <ItemsStackPanel AreStickyGroupHeadersEnabled="True" />
@@ -67,5 +57,5 @@
                 Grid.Row="1"
                 PlaceholderText="Type task name here. Enter to confirm." />
         </Grid>
-    </SplitView>
+    </controls:TaskMasterDetailView>
 </Page>

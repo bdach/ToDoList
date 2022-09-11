@@ -118,7 +118,7 @@ namespace Ticketron.App.Views.Tasks.Controls
                     textFragments.Add($"{ViewModel?.TaskGroup.Icon} {ViewModel?.TaskGroup.Name}");
 
                 if (ViewModel?.ScheduledFor != null)
-                    textFragments.Add(ViewModel.ScheduledFor.Value.Date == DateTime.Today ? "today" : ViewModel.ScheduledFor.Value.Humanize(dateToCompareAgainst: DateTime.Today));
+                    textFragments.Add(ViewModel.ScheduledFor.Value.Date == DateTime.Today ? "today" : ViewModel.ScheduledFor.Value.Humanize(dateToCompareAgainst: DateTime.UtcNow.Date));
             }
 
             var descriptionText = string.Join("  ●  ", textFragments);

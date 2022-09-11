@@ -15,40 +15,43 @@
             IsSourceGrouped="True" />
     </Page.Resources>
 
-    <Grid
-        Padding="45,30"
-        RowSpacing="10">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+    <controls:TaskMasterDetailView
+        SelectedTask="{x:Bind (viewModels:TaskViewModel)TaskListView.SelectedItem, Mode=OneWay}">
+        <Grid
+            Padding="45,30"
+            RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
 
-        <ListView
-            x:Name="TaskListView"
-            ItemsSource="{x:Bind TasksForTodayCollectionViewSource.View, Mode=OneWay}">
-            <ListView.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <ItemsStackPanel AreStickyGroupHeadersEnabled="True" />
-                </ItemsPanelTemplate>
-            </ListView.ItemsPanel>
-            <ListView.GroupStyle>
-                <GroupStyle>
-                    <GroupStyle.HeaderTemplate>
-                        <DataTemplate x:DataType="viewModels:TodayPageTaskGrouping">
-                            <Border>
-                                <TextBlock Text="{x:Bind Header}" Style="{ThemeResource TitleTextBlockStyle}" />
-                            </Border>
-                        </DataTemplate>
-                    </GroupStyle.HeaderTemplate>
-                </GroupStyle>
-            </ListView.GroupStyle>
-            <ListView.ItemTemplate>
-                <DataTemplate x:DataType="viewModels:TaskViewModel">
-                    <controls:TaskListItemControl
-                        ViewModel="{x:Bind}"
-                        ShowTaskGroup="True" />
-                </DataTemplate>
-            </ListView.ItemTemplate>
-        </ListView>
-    </Grid>
+            <ListView
+                x:Name="TaskListView"
+                ItemsSource="{x:Bind TasksForTodayCollectionViewSource.View, Mode=OneWay}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel AreStickyGroupHeadersEnabled="True" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate x:DataType="viewModels:TodayPageTaskGrouping">
+                                <Border>
+                                    <TextBlock Text="{x:Bind Header}" Style="{ThemeResource TitleTextBlockStyle}" />
+                                </Border>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:TaskViewModel">
+                        <controls:TaskListItemControl
+                            ViewModel="{x:Bind}"
+                            ShowTaskGroup="True" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </controls:TaskMasterDetailView>
 </Page>
