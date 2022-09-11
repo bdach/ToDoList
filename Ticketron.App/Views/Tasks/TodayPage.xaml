@@ -71,6 +71,7 @@
                 KeyDown="OnTaskEntryKeyDown"
                 Grid.Row="1"
                 Grid.Column="1"
+                IsEnabled="{x:Bind TaskGroupSelected(TaskGroupSelector.SelectedTaskGroup), Mode=OneWay}"
                 PlaceholderText="Type task name here. Enter to confirm." />
         </Grid>
     </controls:TaskMasterDetailView>

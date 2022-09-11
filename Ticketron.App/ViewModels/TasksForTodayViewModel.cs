@@ -48,15 +48,19 @@ public class TasksForTodayViewModel
 
         _tasksForToday.Add(
             new TodayPageTaskGrouping(
+                "Worked on",
+                tasksForToday.TasksWorkedOnToday.Select(task => new TaskViewModel(task, _taskGroups[task.GroupId]))));
+        _tasksForToday.Add(
+            new TodayPageTaskGrouping(
                 "Overdue",
                 tasksForToday.OverdueTasks.Select(task => new TaskViewModel(task, _taskGroups[task.GroupId]))));
         _tasksForToday.Add(
             new TodayPageTaskGrouping(
-                "Scheduled for today",
+                "Scheduled",
                 tasksForToday.TasksScheduledForToday.Select(task => new TaskViewModel(task, _taskGroups[task.GroupId]))));
         _tasksForToday.Add(
             new TodayPageTaskGrouping(
-                "Done today",
+                "Done",
                 tasksForToday.TasksDoneToday.Select(task => new TaskViewModel(task, _taskGroups[task.GroupId]))));
 
         foreach (var task in AllTasks)

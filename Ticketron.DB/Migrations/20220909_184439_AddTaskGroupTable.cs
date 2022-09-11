@@ -1,4 +1,5 @@
-﻿using FluentMigrator;
+﻿using System.Data;
+using FluentMigrator;
 
 namespace Ticketron.DB.Migrations;
 
@@ -13,7 +14,7 @@ public class AddTaskGroupTable : Migration
             .WithColumn("Name").AsString();
 
         Alter.Table("Tasks")
-            .AddColumn("GroupId").AsInt32().ForeignKey("FK_Task_TaskGroup", "TaskGroups", "Id");
+            .AddColumn("GroupId").AsInt32().ForeignKey("FK_Task_TaskGroup", "TaskGroups", "Id").OnDeleteOrUpdate(Rule.Cascade);
     }
 
     public override void Down()

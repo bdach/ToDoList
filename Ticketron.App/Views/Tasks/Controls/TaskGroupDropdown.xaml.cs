@@ -17,9 +17,9 @@ namespace Ticketron.App.Views.Tasks.Controls
                 typeof(TaskGroupDropdown),
                 new PropertyMetadata(default(TaskGroupViewModel)));
 
-        public TaskGroupViewModel SelectedTaskGroup
+        public TaskGroupViewModel? SelectedTaskGroup
         {
-            get => (TaskGroupViewModel)GetValue(SelectedTaskGroupProperty);
+            get => (TaskGroupViewModel?)GetValue(SelectedTaskGroupProperty);
             set => SetValue(SelectedTaskGroupProperty, value);
         }
 
@@ -41,7 +41,7 @@ namespace Ticketron.App.Views.Tasks.Controls
             this.InitializeComponent();
 
             TaskGroups = new ReadOnlyObservableCollection<TaskGroupViewModel>(App.Current.State.TaskGroups);
-            SelectedTaskGroup = TaskGroups.First();
+            SelectedTaskGroup = TaskGroups.FirstOrDefault();
         }
 
         public string SelectDisplayMember(bool compact)

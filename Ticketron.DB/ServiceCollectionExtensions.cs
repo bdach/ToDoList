@@ -11,7 +11,7 @@ public static class ServiceCollectionExtensions
     /// </summary>
     public static IServiceCollection AddTicketronDatabase(this IServiceCollection serviceCollection, string path)
     {
-        var connectionString = $"Data Source={path}";
+        var connectionString = $"Data Source={path};Foreign Keys = True";
 
         serviceCollection
             .AddFluentMigratorCore()

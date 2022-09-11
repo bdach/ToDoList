@@ -15,10 +15,35 @@ public class TasksForTodayRepository : ITasksForTodayRepository
     {
         using var connection = _connectionFactory.Create();
 
+        var tasksWorkedOnToday = (await connection.QueryAsync<Models.Task>(
+            @"SELECT *
+            FROM Tasks tasks
+            WHERE
+                EXISTS
+	            (
+		            SELECT 1
+		            FROM TaskLogEntries logEntries
+		            WHERE logEntries.TaskId = tasks.Id
+		            AND DATE(logEntries.Start) = DATE(@Today)
+	            )
+	            AND Done = 0",
+            new
+            {
+                Today = today
+            }))
+            .ToList();
+
         var overdueTasks = (await connection.QueryAsync<Models.Task>(
             @"SELECT * FROM Tasks
             WHERE ScheduledFor < @Today
-                AND Done = 0",
+	            AND Done = 0
+	            AND NOT EXISTS
+	            (
+		            SELECT 1
+		            FROM TaskLogEntries logEntries
+		            WHERE logEntries.TaskId = tasks.Id
+		            AND DATE(logEntries.Start) = DATE(@Today)
+	            )",
             new
             {
                 Today = today
@@ -28,18 +53,35 @@ public class TasksForTodayRepository : ITasksForTodayRepository
         var tasksScheduledForToday = (await connection.QueryAsync<Models.Task>(
             @"SELECT * FROM Tasks
             WHERE DATE(ScheduledFor) = DATE(@Today)
-                AND Done = 0",
+                AND Done = 0
+	            AND NOT EXISTS
+	            (
+		            SELECT 1
+		            FROM TaskLogEntries logEntries
+		            WHERE logEntries.TaskId = tasks.Id
+		            AND DATE(logEntries.Start) = DATE(@Today)
+	            )",
             new
             {
                 Today = today
             }))
             .ToList();
 
-        // TODO: When time tracking lands, also return tasks that weren't necessarily scheduled for today, but _have_ been worked on today.
         var tasksDoneToday = (await connection.QueryAsync<Models.Task>(
             @"SELECT * FROM Tasks
-            WHERE DATE(ScheduledFor) = DATE(@Today)
-                AND Done = 1",
+                WHERE
+	                (
+		                DATE(ScheduledFor) = DATE(@Today)
+		                OR
+                        EXISTS
+		                (
+			                SELECT 1
+			                FROM TaskLogEntries logEntries
+			                WHERE logEntries.TaskId = tasks.Id
+			                AND DATE(logEntries.Start) = DATE(@Today)
+		                )
+	                )
+	                AND Done = 1",
             new
             {
                 Today = today
@@ -48,6 +90,7 @@ public class TasksForTodayRepository : ITasksForTodayRepository
 
         return new Models.TasksForToday
         {
+            TasksWorkedOnToday = tasksWorkedOnToday,
             OverdueTasks = overdueTasks,
             TasksScheduledForToday = tasksScheduledForToday,
             TasksDoneToday = tasksDoneToday

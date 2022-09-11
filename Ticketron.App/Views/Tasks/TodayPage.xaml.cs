@@ -41,7 +41,9 @@ namespace Ticketron.App.Views.Tasks
 
         private async void OnTaskEntryKeyDown(object sender, KeyRoutedEventArgs e)
         {
-            if (e.Key != VirtualKey.Enter || string.IsNullOrEmpty(TaskEntryTextBox.Text))
+            if (e.Key != VirtualKey.Enter
+                || string.IsNullOrEmpty(TaskEntryTextBox.Text)
+                || TaskGroupSelector.SelectedTaskGroup == null)
                 return;
 
             var newTask = new TaskViewModel(TaskGroupSelector.SelectedTaskGroup)
@@ -56,5 +58,7 @@ namespace Ticketron.App.Views.Tasks
 
         private async void TaskDeleteRequested(object sender, TaskListItemControl.TaskDeletedEventArgs e)
             => await ViewModel.DeleteTask(e.DeletedTask);
+
+        public bool TaskGroupSelected(TaskGroupViewModel? taskGroupViewModel) => taskGroupViewModel != null;
     }
 }
