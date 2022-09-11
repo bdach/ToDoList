@@ -22,7 +22,7 @@
         </Grid.RowDefinitions>
 
         <TextBox
-            Text="{x:Bind ViewModel.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+            Text="{x:Bind ViewModel.Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged, FallbackValue=''}"
             FontSize="24"
             FontWeight="Medium"
             TextWrapping="Wrap" />
@@ -35,6 +35,6 @@
             FirstDayOfWeek="Monday"
             PlaceholderText="select a date"
             DateFormat="{}{dayofweek.full}‎, ‎{month.full}‎ ‎{day.integer}‎, ‎{year.full}"
-            Date="{x:Bind ViewModel.ScheduledFor, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}}" />
+            Date="{x:Bind ViewModel.ScheduledFor, Mode=TwoWay, Converter={StaticResource DateTimeToDateTimeOffsetConverter}, FallbackValue=null}" />
     </Grid>
 </UserControl>

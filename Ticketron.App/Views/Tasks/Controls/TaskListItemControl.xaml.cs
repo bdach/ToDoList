@@ -183,7 +183,11 @@ namespace Ticketron.App.Views.Tasks.Controls
             => App.Current.State.PropertyChanged += OnAppStateChanged;
 
         private void ControlUnloaded(object _, RoutedEventArgs __)
-            => App.Current.State.PropertyChanged -= OnAppStateChanged;
+        {
+            // force a viewmodel change to unbind
+            ViewModel = null;
+            App.Current.State.PropertyChanged -= OnAppStateChanged;
+        }
 
         private void OnAppStateChanged(object? sender, PropertyChangedEventArgs e)
         {

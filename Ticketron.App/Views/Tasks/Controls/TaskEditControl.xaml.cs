@@ -11,11 +11,11 @@ namespace Ticketron.App.Views.Tasks.Controls
                 nameof(ViewModel),
                 typeof(TaskViewModel),
                 typeof(TaskEditControl),
-                new PropertyMetadata(default(TaskViewModel)));
+                new PropertyMetadata(default(TaskViewModel?)));
 
-        public TaskViewModel ViewModel
+        public TaskViewModel? ViewModel
         {
-            get => (TaskViewModel)GetValue(ViewModelProperty);
+            get => (TaskViewModel?)GetValue(ViewModelProperty);
             set => SetValue(ViewModelProperty, value);
         }
 
