@@ -11,6 +11,9 @@
         public Task Task { get; }
         public ICollection<TaskLogEntry> Entries { get; internal set; } = new List<TaskLogEntry>();
 
+        public TimeSpan TotalTimeLogged =>
+            Entries.Aggregate(TimeSpan.Zero, (total, entry) => total += entry.TimeLogged);
+
         public DailyTaskProgress(TaskGroup group, Task task)
         {
             Group = group;

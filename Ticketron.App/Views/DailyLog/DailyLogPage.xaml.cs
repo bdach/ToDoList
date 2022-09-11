@@ -1,4 +1,7 @@
 ﻿using System;
+using Windows.UI.Text;
+using Humanizer;
+using Humanizer.Localisation;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
@@ -29,6 +32,15 @@ namespace Ticketron.App.Views.DailyLog
 
         private async void OnLoaded(object _, RoutedEventArgs __)
             => await FetchLogAsync(LogDatePicker.Date.Date);
+
+        public static string FormatNotes(string notes)
+            => string.IsNullOrWhiteSpace(notes) ? "Time logged without a note" : notes;
+
+        public static FontStyle StyleForNotes(string notes)
+            => string.IsNullOrWhiteSpace(notes) ? FontStyle.Italic : FontStyle.Normal;
+
+        public static string FormatDuration(TimeSpan duration)
+            => duration.Humanize(minUnit: TimeUnit.Minute);
     }
 
     internal class DailyLogItemTemplateSelector : DataTemplateSelector

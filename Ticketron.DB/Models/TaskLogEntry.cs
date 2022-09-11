@@ -9,6 +9,8 @@ public class TaskLogEntry
     public DateTime Start { get; set; }
     public DateTime? End { get; set; }
 
+    public TimeSpan TimeLogged => (End ?? DateTime.Now) - Start;
+
     public string Notes { get; set; } = string.Empty;
 
     public TaskLogEntry(Task task)

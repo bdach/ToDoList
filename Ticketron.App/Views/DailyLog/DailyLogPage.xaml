@@ -16,16 +16,64 @@
             x:DataType="models:DailyTaskProgress">
             <TreeViewItem
                 ItemsSource="{x:Bind Entries}"
-                IsExpanded="True">
-                <TextBlock Text="{x:Bind Task.Title}" />
+                IsExpanded="False">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Text="{x:Bind Task.Title}"
+                        FontSize="18" />
+
+                    <StackPanel
+                        Grid.Column="0"
+                        Grid.Row="1"
+                        Orientation="Horizontal"
+                        Spacing="5">
+                        <TextBlock
+                            Text="{x:Bind Group.Icon}"
+                            FontSize="14" />
+                        <TextBlock
+                            Text="{x:Bind Group.Name}"
+                            FontSize="14" />
+                    </StackPanel>
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Grid.Row="0"
+                        Grid.RowSpan="2"
+                        VerticalAlignment="Center"
+                        Text="{x:Bind local:DailyLogPage.FormatDuration(TotalTimeLogged)}"
+                        FontSize="18"></TextBlock>
+                </Grid>
             </TreeViewItem>
         </DataTemplate>
 
-        <DataTemplate
+        <DataTemplate   
             x:Key="LogEntryTemplate"
             x:DataType="models:TaskLogEntry">
             <TreeViewItem>
-                <TextBlock Text="{x:Bind Notes}" />
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock
+                        Text="{x:Bind local:DailyLogPage.FormatNotes(Notes)}"
+                        FontStyle="{x:Bind local:DailyLogPage.StyleForNotes(Notes)}" />
+
+                    <TextBlock
+                        Grid.Column="1"
+                        Text="{x:Bind local:DailyLogPage.FormatDuration(TimeLogged)}" />
+                </Grid>
             </TreeViewItem>
         </DataTemplate>
 
