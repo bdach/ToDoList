@@ -1,4 +1,5 @@
-﻿using System.Collections.Specialized;
+﻿using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
@@ -19,50 +20,16 @@ public class AppStatePersistenceManager
 
     public async Task<AppViewModel> LoadAppState()
     {
-        var state = new AppViewModel();
-
         var taskGroups = await _taskGroupRepository.GetAllAsync();
-        foreach (var taskGroup in taskGroups)
-        {
-            var viewModel = new TaskGroupViewModel(taskGroup);
-            viewModel.PropertyChanged += TaskGroupChanged;
-            state.TaskGroups.Add(viewModel);
-        }
-
-        state.TaskGroups.CollectionChanged += TaskGroupCollectionChanged;
-
-        return state;
+        return new AppViewModel(taskGroups, this);
     }
 
-    private async void TaskGroupCollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        switch (e.Action)
-        {
-            case NotifyCollectionChangedAction.Add:
-                var newGroups = e.NewItems!.Cast<TaskGroupViewModel>().ToList();
+    public Task CreateAsync(IEnumerable<TaskGroupViewModel> taskGroups) =>
+        _taskGroupRepository.CreateAsync(taskGroups.Select(group => group.Model).ToArray());
 
-                foreach (var group in newGroups)
-                    group.PropertyChanged += TaskGroupChanged;
-
-                await _taskGroupRepository.CreateAsync(newGroups.Select(viewModel => viewModel.Model).ToArray());
-                break;
-
-            case NotifyCollectionChangedAction.Remove:
-                var oldGroups = e.OldItems!.Cast<TaskGroupViewModel>().ToList();
-
-                foreach (var group in oldGroups)
-                    group.PropertyChanged -= TaskGroupChanged;
-
-                await _taskGroupRepository.DeleteAsync(oldGroups.Select(viewModel => viewModel.Model).ToArray());
-                break;
-        }
-    }
-
-    private void TaskGroupChanged(object? sender, PropertyChangedEventArgs e)
-    {
-        if (sender is not TaskGroupViewModel taskGroup)
-            return;
-
+    public Task UpdateAsync(TaskGroupViewModel taskGroup) =>
         _taskGroupRepository.UpdateAsync(taskGroup.Model);
-    }
+
+    public Task DeleteAsync(IEnumerable<TaskGroupViewModel> taskGroups) =>
+        _taskGroupRepository.DeleteAsync(taskGroups.Select(group => group.Model).ToArray());
 }
