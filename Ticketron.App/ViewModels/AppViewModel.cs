@@ -31,7 +31,6 @@ public class AppViewModel : ObservableObject
     }
 
     private readonly AppStatePersistenceManager _persistenceManager;
-    private readonly object _syncRoot = new object();
 
     public AppViewModel(ICollection<TaskGroup> taskGroups, AppStatePersistenceManager persistenceManager)
     {
@@ -81,35 +80,27 @@ public class AppViewModel : ObservableObject
 
     public async System.Threading.Tasks.Task StartWorkingOnAsync(TaskViewModel task)
     {
-        TaskLogEntryViewModel logEntry;
+        var logEntry = new TaskLogEntryViewModel(task);
 
-        lock (_syncRoot)
-        {
-            if (CurrentLogEntry != null)
-                throw new InvalidOperationException(
-                    "Cannot start working on a task while another is being worked on already");
-
-            logEntry = new TaskLogEntryViewModel(task);
-            CurrentLogEntry = logEntry;
-        }
+        if (CurrentLogEntry != null)
+            throw new InvalidOperationException(
+                "Cannot start working on a task while another is being worked on already");
 
         await _persistenceManager.CreateAsync(logEntry);
+
+        CurrentLogEntry = logEntry;
     }
 
     public async System.Threading.Tasks.Task EndWorkingOnCurrentTaskAsync()
     {
-        TaskLogEntryViewModel logEntry;
+        if (CurrentLogEntry == null)
+            return;
 
-        lock (_syncRoot)
-        {
-            if (CurrentLogEntry == null)
-                return;
-
-            logEntry = CurrentLogEntry;
-            CurrentLogEntry = null;
-        }
+        var logEntry = CurrentLogEntry;
 
         logEntry.End = DateTime.Now;
         await _persistenceManager.UpdateAsync(logEntry);
+
+        CurrentLogEntry = null;
     }
 }

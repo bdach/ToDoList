@@ -208,7 +208,7 @@ namespace Ticketron.App.Views.Tasks.Controls
         private async void TaskStopRequested(XamlUICommand _, ExecuteRequestedEventArgs __)
         {
             if (ViewModel == null) return;
-            if (ViewModel != App.Current.State.CurrentLogEntry?.Task)
+            if (ViewModel.Model.Id != App.Current.State.CurrentLogEntry?.Task.Model.Id)
                 throw new InvalidOperationException(
                     "Catastrophic failure: attempted to stop task which is not in progress.");
 

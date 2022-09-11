@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
@@ -7,7 +8,7 @@ using Ticketron.DB.Models;
 
 namespace Ticketron.App.ViewModels;
 
-public class TasksForTodayViewModel
+public sealed class TasksForTodayViewModel : IDisposable
 {
     public ReadOnlyObservableCollection<TodayPageTaskGrouping> TasksForToday { get; }
 
@@ -28,6 +29,14 @@ public class TasksForTodayViewModel
         TasksForToday = new ReadOnlyObservableCollection<TodayPageTaskGrouping>(_tasksForToday);
 
         RegroupTasks(tasksForToday);
+
+        App.Current.State.PropertyChanged += AppStateChanged;
+    }
+
+    private async void AppStateChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(AppViewModel.CurrentLogEntry))
+            await RefetchTasks();
     }
 
     private async System.Threading.Tasks.Task RefetchTasks()
@@ -90,6 +99,11 @@ public class TasksForTodayViewModel
     {
         await _persistenceManager.DeleteAsync(newTask);
         await RefetchTasks();
+    }
+
+    public void Dispose()
+    {
+        App.Current.State.PropertyChanged -= AppStateChanged;
     }
 }
 

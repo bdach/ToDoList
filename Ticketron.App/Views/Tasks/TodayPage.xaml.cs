@@ -18,7 +18,7 @@ namespace Ticketron.App.Views.Tasks
                 nameof(ViewModel),
                 typeof(TasksForTodayViewModel),
                 typeof(TodayPage),
-                new PropertyMetadata(default(TasksForTodayViewModel)));
+                new PropertyMetadata(default(TasksForTodayViewModel), OnViewModelChanged));
 
         public TasksForTodayViewModel ViewModel
         {
@@ -60,5 +60,20 @@ namespace Ticketron.App.Views.Tasks
             => await ViewModel.DeleteTask(e.DeletedTask);
 
         public bool TaskGroupSelected(TaskGroupViewModel? taskGroupViewModel) => taskGroupViewModel != null;
+
+        #region View model subscription cleanup
+
+        private static void OnViewModelChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
+        {
+            var oldViewModel = (TasksForTodayViewModel?)e.OldValue;
+            oldViewModel?.Dispose();
+        }
+
+        private void OnUnloaded(object sender, RoutedEventArgs e)
+        {
+            ViewModel.Dispose();
+        }
+
+        #endregion
     }
 }
