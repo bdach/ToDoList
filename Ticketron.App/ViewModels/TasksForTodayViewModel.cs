@@ -30,6 +30,12 @@ public class TasksForTodayViewModel
         RegroupTasks(tasksForToday);
     }
 
+    private async System.Threading.Tasks.Task RefetchTasks()
+    {
+        var regroupedTasks = await _persistenceManager.GetTasksForTodayAsync();
+        RegroupTasks(regroupedTasks);
+    }
+
     private void RegroupTasks(TasksForToday tasksForToday)
     {
         foreach (var task in AllTasks)
@@ -66,9 +72,20 @@ public class TasksForTodayViewModel
 
         if (e.PropertyName is nameof(Task.Done) or nameof(Task.ScheduledFor))
         {
-            var regroupedTasks = await _persistenceManager.GetTasksForTodayAsync();
-            RegroupTasks(regroupedTasks);
+            await RefetchTasks();
         }
+    }
+
+    public async System.Threading.Tasks.Task AddTask(TaskViewModel newTask)
+    {
+        await _persistenceManager.CreateAsync(newTask);
+        await RefetchTasks();
+    }
+
+    public async System.Threading.Tasks.Task DeleteTask(TaskViewModel newTask)
+    {
+        await _persistenceManager.DeleteAsync(newTask);
+        await RefetchTasks();
     }
 }
 

@@ -28,4 +28,6 @@ public class TaskGroupViewModel : ObservableObject
         get => Model.Name;
         set => SetProperty(Model.Name, value, Model, (model, name) => model.Name = name);
     }
+
+    public override string ToString() => $"{Icon} {Name}";
 }

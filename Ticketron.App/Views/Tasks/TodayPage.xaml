@@ -18,14 +18,20 @@
     <controls:TaskMasterDetailView
         SelectedTask="{x:Bind (viewModels:TaskViewModel)TaskListView.SelectedItem, Mode=OneWay}">
         <Grid
-            Padding="45,30"
-            RowSpacing="10">
+            RowSpacing="10"
+            ColumnSpacing="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />
                 <RowDefinition Height="Auto" />
             </Grid.RowDefinitions>
 
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
             <ListView
+                Grid.ColumnSpan="2"
                 x:Name="TaskListView"
                 ItemsSource="{x:Bind TasksForTodayCollectionViewSource.View, Mode=OneWay}">
                 <ListView.ItemsPanel>
@@ -48,10 +54,24 @@
                     <DataTemplate x:DataType="viewModels:TaskViewModel">
                         <controls:TaskListItemControl
                             ViewModel="{x:Bind}"
-                            ShowTaskGroup="True" />
+                            ShowTaskGroup="True"
+                            TaskDeleted="TaskDeleteRequested" />
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+
+            <controls:TaskGroupDropdown
+                x:Name="TaskGroupSelector"
+                Grid.Row="1"
+                Grid.Column="0"
+                Compact="True" />
+
+            <TextBox
+                x:Name="TaskEntryTextBox"
+                KeyDown="OnTaskEntryKeyDown"
+                Grid.Row="1"
+                Grid.Column="1"
+                PlaceholderText="Type task name here. Enter to confirm." />
         </Grid>
     </controls:TaskMasterDetailView>
 </Page>
