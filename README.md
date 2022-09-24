@@ -2,6 +2,9 @@
 
 There are many to-do list apps. This one is mine.
 
+I wrote it on a weekend and then it turned out to be nearly useless anywhere else other than my development PC because of a wrong framework choice (WinUI 3).
+Then I installed [taskwarrior](https://taskwarrior.org/) and it had everything I wanted and wasn't a bloated memory-leaky mess, so this repository will likely never be used again by any living soul.
+
 ## ⚠️ DISCLAIMER ⚠️
 
 This was written in 3 days and has had basically no testing other than me clicking around and deciding "seems solid enough".
