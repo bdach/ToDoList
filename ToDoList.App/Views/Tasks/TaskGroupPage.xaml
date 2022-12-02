@@ -1,0 +1,61 @@
+﻿<Page
+    x:Class="ToDoList.App.Views.Tasks.TaskGroupPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="using:ToDoList.App.Views.Tasks"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:ToDoList.App.ViewModels"
+    xmlns:controls="using:ToDoList.App.Views.Tasks.Controls"
+    mc:Ignorable="d">
+    <Page.Resources>
+        <CollectionViewSource
+            x:Name="TasksCollectionViewSource"
+            IsSourceGrouped="True" />
+    </Page.Resources>
+
+    <controls:TaskMasterDetailView
+        SelectedTask="{x:Bind (viewModels:TaskViewModel)TaskListView.SelectedItem, Mode=OneWay}">
+        <Grid
+            RowSpacing="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+
+            <ListView
+                x:Name="TaskListView"
+                ItemsSource="{x:Bind TasksCollectionViewSource.View, Mode=OneWay}">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <ItemsStackPanel AreStickyGroupHeadersEnabled="True" />
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate x:DataType="viewModels:TaskGroupPageGrouping">
+                                <Border>
+                                    <TextBlock Text="{x:Bind Header}" Style="{ThemeResource TitleTextBlockStyle}" />
+                                </Border>
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ListView.GroupStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="viewModels:TaskViewModel">
+                        <controls:TaskListItemControl
+                            ViewModel="{x:Bind}"
+                            TaskDeleted="TaskDeleteRequested" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <TextBox
+                x:Name="TaskEntryTextBox"
+                KeyDown="OnTaskEntryKeyDown"
+                Grid.Row="1"
+                PlaceholderText="Type task name here. Enter to confirm." />
+        </Grid>
+    </controls:TaskMasterDetailView>
+</Page>

@@ -1,0 +1,10 @@
+{
+  "profiles": {
+    "ToDoList.App (Package)": {
+      "commandName": "MsixPackage"
+    },
+    "ToDoList.App (Unpackaged)": {
+      "commandName": "Project"
+    }
+  }
+}
